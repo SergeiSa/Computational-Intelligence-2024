@@ -1,0 +1,277 @@
+\documentclass{beamer}
+
+\input{settings.tex}
+
+
+\title{Shortest Path Planning}
+\subtitle{Computational Intelligence, Lecture 13}
+\author{by Sergei Savin}
+\centering
+\date{\mydate}
+
+
+\begin{document}
+\maketitle
+
+
+\begin{frame}{Content}
+
+%\begin{itemize}
+%\item Mixed Integer Linear Programming (MILP)
+%\item Mixed Integer Quadratic Programming (MIQP)
+%\item Example: Footstep planning
+%\item Big-M method relaxation
+%\item Example: switching control
+%\item Homework
+%\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}{Shortest path on a graph}
+	%\framesubtitle{General form}
+	\begin{flushleft}
+		
+		If we want to plan a path on a 2D map, we can represent obstacle-free space regions as a nodes, and possible transitions between the obstacle-free space regions as graph edges. 
+		
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.4\linewidth]{GraphPathPlanning}
+			\caption{Path planning as graph search; \scriptsize{Credit: https://demonstrations.wolfram.com/ProbabilisticRoadmapMethod/}}
+			\label{fig:graphpathplanning}
+		\end{figure}
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Shortest path on a graph}
+%\framesubtitle{General form}
+\begin{flushleft}
+
+Consider a directed graph (each edge has a direction assigned to it):
+
+% TODO: \usepackage{graphicx} required
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\linewidth]{DirectedGraph}
+	\caption[]{Directed graph; \scriptsize{Credit: https://github.com/HQarroum/directed-graph}}
+	\label{fig:directedgraph}
+\end{figure}
+
+How can we find a shortest path from a start node to a finish node on it?
+
+\end{flushleft}
+\end{frame}
+
+\begin{frame}
+	%\framesubtitle{How do we know the state?}
+	\begin{flushleft}
+		
+		\centering{\Huge SPP as LP}
+		
+	\end{flushleft}
+\end{frame}
+
+\begin{frame}{Shortest path (1)}
+%\framesubtitle{General form}
+\begin{flushleft}
+
+We assign index variable $x_i$ to $i$-th edge; each index variable is positive $x_i \geq 0$. 
+
+\bigskip
+
+If $x_i = 1$ the edge is part of the path. We assume that otherwise $x_i = 0$ (which will be enforced by the other constraints). Adding a cost $d_i$ associated with each edge (e.g. Euclidean distance) we get a linear cost $l(\bo{x})$:
+
+\begin{equation}
+	l(\bo{x}) = \bo{x}\T \bo{d}
+\end{equation}
+
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Shortest path (2)}
+	%\framesubtitle{General form}
+	\begin{flushleft}
+		
+		Since each edge connects one node (e.g. node $u$) to another (e.g. node $v$), we can label all index variables $x$ with superscripts, denoting nodes that they connect - $x^{u,v}$.
+		
+		\bigskip
+		
+		Our goal will be to count how many path segments enter and leave each node. For any normal node the number will be equal:
+		
+		\begin{equation}
+			-\sum_{\forall i} x^{i,v} + \sum_{\forall j} x^{v,j} = 0
+		\end{equation}
+		
+	
+	\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Shortest path (3)}
+	%\framesubtitle{General form}
+	\begin{flushleft}
+		
+		
+		We know that for the starting node $s$, there will only be one path segment leaving it:
+		
+		\begin{equation}
+			-\sum_{\forall i} x^{i,s} + \sum_{\forall j} x^{s,j} = 1
+		\end{equation}
+		
+		For the finishing node  $f$ we have only one path segment entering it:
+		
+		\begin{equation}
+			-\sum_{\forall i} x^{i,f} + \sum_{\forall j} x^{f,j} = -1
+		\end{equation}
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Shortest path (4)}
+	%\framesubtitle{General form}
+	\begin{flushleft}
+		
+		
+		Together the problem becomes:
+		
+		\begin{equation} \label{LP}
+			\begin{aligned}
+				& \underset{\mathbf{x}}{\text{minimize}}
+				& & \bo{x}\T \bo{d}, \\
+				& \text{subject to}
+				& & \begin{cases} 
+					-\sum_{\forall i} x^{i,v} + \sum_{\forall j} x^{v,j} = 0, \ \ \ \forall v \\ 
+					-\sum_{\forall i} x^{i,s} + \sum_{\forall j} x^{s,j} = 1,  \\
+					-\sum_{\forall i} x^{i,f} + \sum_{\forall j} x^{f,j} = -1,\\
+					\bo{x} \geq 0.
+				\end{cases}
+				%
+			\end{aligned}
+		\end{equation}
+	
+		And with that, the problem can be solved as an LP.
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{SPP code (1)}
+	%\framesubtitle{Code}
+	\begin{flushleft}
+		
+		\input{code1}
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{SPP code (2)}
+	%\framesubtitle{Code}
+	\begin{flushleft}
+		
+		\input{code2}
+		
+	\end{flushleft}
+\end{frame}
+
+
+\begin{frame}
+	%\framesubtitle{How do we know the state?}
+	\begin{flushleft}
+		
+		\centering{\Huge SPP via A* algorithm}
+		
+	\end{flushleft}
+\end{frame}
+
+
+\begin{frame}{A star search}
+	%\framesubtitle{General form}
+	\begin{flushleft}
+		
+		Another popular shortest path planning method for graphs is \emph{A star} (\emph{A*}). Unlike the previous method it does not involve optimization, but it requires a \emph{heuristic}.
+		
+		\bigskip
+		
+		To study A* we once more consider a graph whose edges have cost associated with them.
+		
+		\bigskip
+		
+		Let $p$ be a node of the graph that the program found a path to. Point $p$ has a predecessor point $a(p)$ - the last node in the path towards $p$. Since each predecessor knows its predecessor, it means we can recursively reconstruct the path from the point $p$ to the start.
+		
+	\end{flushleft}
+\end{frame}
+
+
+\begin{frame}{A star search}
+	%\framesubtitle{General form}
+	\begin{flushleft}
+		
+		Finding a path from the start to the point $p$ we construct a sequence of edges that we need to travel through - $e_1$, $e_2$, ...,  $e_n$. Each of these edges has a cost associated with them -  $c_1$, $c_2$, ...,  $c_n$. So, the cost of reaching a node $p$ is $g(p) = \sum_{i=1}^{n} c_i$.
+		
+		\bigskip
+		
+		If we have a heuristic $h(p)$ that (while more or less accurate) always \emph{underestimates} the cost to reaching goal from the node $p$, we can use A* to choose the next node in the path. We choose the node that minimizes the following cost function:
+		
+		\begin{equation}
+			p_{next} = \underset{p}{\text{argmin}} (g(p)+h(p))
+		\end{equation} 
+			
+	\end{flushleft}
+\end{frame}
+
+
+\begin{frame}{A star search - implementation}
+	%\framesubtitle{General form}
+	\begin{flushleft}
+		
+		In practice, when we can compute $g(p)$ much simpler. Given a new node $p_{next}$ and its predecessor $p_a$, and the cost associated with the edge connecting them $c_a$, we can assign the value of $g(p_{next})$ as:
+		
+		\begin{equation}
+			g(p_{next}) := g(p_a) + c_a
+		\end{equation}
+	
+		Heuristic might be difficult to formulate in general, but as long as each node has coordinates on a plane associated with it, Euclidean distance provides a suitable heuristic.
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{A star search - implementation}
+	%\framesubtitle{General form}
+	\begin{flushleft}
+		
+		A grid can easily be seen as a graph, where adjacency implies connection.
+		
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.7\linewidth]{a_-search-algorithm-1}
+			\caption{Example of a grid with obstacles. Credit: \bref{https://www.geeksforgeeks.org/a-search-algorithm/}{geeksforgeeks.org}}
+			\label{fig:a-search-algorithm-1}
+		\end{figure}
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+\myqrframe
+
+\end{document}

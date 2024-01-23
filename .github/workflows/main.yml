@@ -1,0 +1,232 @@
+name: Build LaTeX document
+
+on: 
+  push:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
+    branches:
+      - master
+
+
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+
+      - name: Compile LaTeX document Syllabus
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: main.tex
+          working_directory: Syllabus/
+
+      - name: Compile LaTeX document Introduction
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: main.tex
+          working_directory: Slides/Introduction/
+
+      - name: Compile LaTeX document Subspaces
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: main.tex
+          working_directory: Slides/Subspaces/
+
+      - name: Compile LaTeX document LeastSquares2QuadraticProgramming_Convexity
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: main.tex
+          working_directory: Slides/LeastSquares2QuadraticProgramming_Convexity/
+
+      - name: Compile LaTeX document H_representation
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: main.tex
+          working_directory: Slides/H_representation/
+
+      - name: Compile LaTeX document Linear_Programming
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: main.tex
+          working_directory: Slides/Linear_Programming/
+
+      - name: Compile LaTeX document QCQP_SOCP
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: main.tex
+          working_directory: Slides/QCQP_SOCP/
+
+      - name: Compile LaTeX document SDP
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: main.tex
+          working_directory: Slides/SDP/
+
+      - name: Compile LaTeX document LMI_Control
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: main.tex
+          working_directory: Slides/LMI_Control/
+
+      - name: Compile LaTeX document MICP
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: main.tex
+          working_directory: Slides/MICP/
+
+      - name: Compile LaTeX document MiniMax
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: main.tex
+          working_directory: Slides/MiniMax/
+
+      - name: Compile LaTeX document MPC
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: main.tex
+          working_directory: Slides/MPC/
+
+      - name: Compile LaTeX document BarrierFunctions
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: main.tex
+          working_directory: Slides/BarrierFunctions/
+
+      - name: Compile LaTeX document Extra_SPP
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: main.tex
+          working_directory: Slides/Extra_SPP/
+
+      - name: Compile LaTeX document Assignment_1
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: main.tex
+          working_directory: Assignments/Assignment_1/
+
+
+
+
+
+
+
+      - name: Save Syllabus artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: Syllabus.pdf
+          path: Syllabus/main.pdf
+
+      - name: Save Introduction artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: Introduction.pdf
+          path: Slides/Introduction/main.pdf
+
+      - name: Save Subspaces artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: Subspaces.pdf
+          path: Slides/Subspaces/main.pdf
+
+      - name: Save LeastSquares2QuadraticProgramming_Convexity artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: LeastSquares2QuadraticProgramming_Convexity.pdf
+          path: Slides/LeastSquares2QuadraticProgramming_Convexity/main.pdf
+
+      - name: Save H_representation artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: H_representation.pdf
+          path: Slides/H_representation/main.pdf
+
+      - name: Save Linear_Programming artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: Linear_Programming.pdf
+          path: Slides/Linear_Programming/main.pdf
+
+      - name: Save QCQP_SOCP artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: QCQP_SOCP.pdf
+          path: Slides/QCQP_SOCP/main.pdf
+
+      - name: Save SDP artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: SDP.pdf
+          path: Slides/SDP/main.pdf
+
+      - name: Save LMI_Control artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: LMI_Control.pdf
+          path: Slides/LMI_Control/main.pdf
+
+      - name: Save MICP artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: MICP.pdf
+          path: Slides/MICP/main.pdf
+
+      - name: Save MiniMax artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: MiniMax.pdf
+          path: Slides/MiniMax/main.pdf
+
+      - name: Save MPC artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: MPC.pdf
+          path: Slides/MPC/main.pdf
+
+      - name: Save BarrierFunctions artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: BarrierFunctions.pdf
+          path: Slides/BarrierFunctions/main.pdf
+
+      - name: Save Extra_SPP artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: Extra_SPP.pdf
+          path: Slides/Extra_SPP/main.pdf
+
+      - name: Save Assignment_1 artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: Assignment_1.pdf
+          path: Assignments/Assignment_1/main.pdf
+
+
+
+      - name: Update compiled PDFs in git repository
+        if: github.event.pull_request.merged == true || github.event_name == 'push'
+        run: |
+          git config --global user.name 'CI PDF compiler'
+          git config --global user.email '<>'
+          git add Syllabus/main.pdf
+          git add Slides/Introduction/main.pdf
+          git add Slides/Subspaces/main.pdf
+          git add Slides/LeastSquares2QuadraticProgramming_Convexity/main.pdf
+          git add Slides/H_representation/main.pdf
+          git add Slides/Linear_Programming/main.pdf
+          git add Slides/QCQP_SOCP/main.pdf
+          git add Slides/SDP/main.pdf
+          git add Slides/LMI_Control/main.pdf
+          git add Slides/MICP/main.pdf
+          git add Slides/MiniMax/main.pdf
+          git add Slides/MPC/main.pdf
+          git add Slides/BarrierFunctions/main.pdf
+          git add Slides/Extra_SPP/main.pdf
+          git add Assignments/Assignment_1/main.pdf
+
+          git commit -m "Update compiled PDFs"
+          git push

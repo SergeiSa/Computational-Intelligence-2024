@@ -1,0 +1,264 @@
+\documentclass{beamer}
+
+\input{settings.tex}
+
+
+\title{LMI, Control design}
+\subtitle{Computational Intelligence, Lecture 8}
+\author{by Sergei Savin}
+\centering
+\date{\mydate}
+
+
+
+\begin{document}
+\maketitle
+
+
+\begin{frame}{Content}
+	
+	\begin{itemize}
+		\item LMI
+		\item Control design
+		\item Schur complement
+		\item Appendix A
+	\end{itemize}
+	
+	
+\end{frame}
+
+
+
+
+\begin{frame}{Linear matrix inequalities (LMI)}
+	%\framesubtitle{How do we know the state?}
+	\begin{flushleft}
+		
+		A linear matrix inequality (LMI) is a semidefinite constraint placed on a matrix:
+		
+		\begin{equation}
+			\bo{S} \succ 0
+		\end{equation}
+		
+		We assume (and this is true!) that there exist \emph{solvers} that can solve problems with such constraints. 
+		
+		
+		\begin{example}
+			Given $\bo{A}$, find such $\bo{S}\succ 0$ that $\bo{A}^\top\bo{S} + \bo{S}\bo{A} \prec 0$.
+		\end{example}
+		
+		Notice that the last example is continious-time Lyapunov eq. for LTI system $\dx{x} = \bo{A}\bo{x}$, and if such $\bo{S}$ exists the system is stable. 
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Control design (continuous-time), 1}
+	%	\framesubtitle{Part 1}
+	\begin{flushleft}
+		
+		Consider a system $\dx{x} = \bo{A}\bo{x} + \bo{B}\bo{u}$, control $\bo{u} = \bo{K}\bo{x}$ and a Lyapunov function $V = \bo{x}^\top\bo{S}\bo{x}$, $\bo{S} \succ 0$.
+		
+		\bigskip
+		
+		Closed-form of the system is $\dx{x} = (\bo{A} + \bo{B}\bo{K})\bo{x}$, and full derivative of the Lyapunov function:
+		
+		\begin{equation}
+			\dot V = \bo{x}^\top (\bo{A} + \bo{B}\bo{K})^\top\bo{S}\bo{x} + \bo{x}^\top\bo{S} (\bo{A} + \bo{B}\bo{K}) \bo{x} < 0
+		\end{equation}
+		
+		This can be re-written as an LMI:
+		
+		\begin{equation}
+			\label{eq:vdot}
+			(\bo{A} + \bo{B}\bo{K})^\top\bo{S} + \bo{S} (\bo{A} + \bo{B}\bo{K}) \prec 0
+		\end{equation}
+		
+		This is \emph{not linear} in decision variables ($\bo{S}$ and $\bo{K}$), and can't be solved directly using popular solvers.
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Control design (continuous-time), 2}
+	%	\framesubtitle{Part 2}
+	\begin{flushleft}
+		
+		Introducing new variable $\bo{P} = \bo{S}^{-1}$ and multiplying \eqref{eq:vdot} by $\bo{P}$ on both sides (we can do it, as both $\bo{P}$ and $\bo{S}$ are full rank, and thus it is a congruence transformation which preserves definiteness, see appendix) we get:
+		
+		\begin{equation}
+			\bo{P}(\bo{A} + \bo{B}\bo{K})^\top + (\bo{A} + \bo{B}\bo{K})\bo{P} \prec 0
+		\end{equation}
+		
+		Now we introduce one more variable $\bo{L} = \bo{K}\bo{P}$ and get an LMI constraint:
+		
+		\begin{equation}
+			\label{control_design}
+			\bo{P}\bo{A}^\top + \bo{A}\bo{P} + \bo{L}^\top\bo{B}^\top + \bo{B}\bo{L} \prec 0
+		\end{equation}
+		
+		Solving \eqref{control_design} gives us $\bo{P}$ and $\bo{L}$, from which we can compute $\bo{K} = \bo{L}\bo{P}^{-1}$ and $\bo{S} = \bo{P}^{-1}$, solving the original problem.
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+
+
+\begin{frame}{Discrete Lyapunov equation}
+	%	\framesubtitle{Part 1}
+	\begin{flushleft}
+		
+		A discrete dynamical system $\bo{x}_{i+1} = \bo{f}(\bo{x}_i)$ is stable if there exists a Lyapunov function $V(\bo{x}_i)$, such that:
+		
+		\begin{itemize}
+			\item $V(\bo{x}_{i+1}) - V(\bo{x}_i) < 0$;
+			\item $V(\bo{x}_i) > 0$ for all $\bo{x}_i \neq 0$.
+		\end{itemize}
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Control design (discrete-time), 1}
+	%	\framesubtitle{Part 1}
+	\begin{flushleft}
+		
+		Consider a system $\bo{x}_{i+1} = \bo{A}\bo{x}_i + \bo{B}\bo{u}_i$, control $\bo{u}_i = \bo{K}\bo{x}_i$ and a Lyapunov function $V(\bo{x}_i) = \bo{x}_i\T \bo{S} \bo{x}_i$, $\bo{S} \succ 0$.
+		
+		\bigskip
+		
+		Closed-form of the system is $\bo{x}_{i+1} = (\bo{A} + \bo{B}\bo{K})\bo{x}_i$, and discrete dynamics of the Lyapunov function is:
+		
+		\begin{align}
+			V(\bo{x}_{i+1}) - V(\bo{x}_i) <0 
+			\\
+			\bo{x}_{i+1}\T \bo{S} \bo{x}_{i+1} - \bo{x}_i\T \bo{S} \bo{x}_i < 0
+			\\
+			\bo{x}_i\T(\bo{A} + \bo{B}\bo{K})\T \bo{S} (\bo{A} + \bo{B}\bo{K})\bo{x}_i - \bo{x}_i\T \bo{S} \bo{x}_i < 0
+			\\
+			\bo{x}_i\T((\bo{A} + \bo{B}\bo{K})\T \bo{S} (\bo{A} + \bo{B}\bo{K}) - \bo{S})\bo{x}_i < 0
+		\end{align}
+		
+		The last equation is equivalent to the following semidefinite inequality:
+		%
+		\begin{align}
+		(\bo{A} + \bo{B}\bo{K})\T \bo{S} (\bo{A} + \bo{B}\bo{K}) - \bo{S} \prec 0
+		\end{align}
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Control design (discrete-time), 2}
+	%	\framesubtitle{Part 1}
+	\begin{flushleft}
+		
+		Semidefinite inequality $(\bo{A} + \bo{B}\bo{K})\T \bo{S} (\bo{A} + \bo{B}\bo{K}) - \bo{S} \prec 0$ can be re-written:
+		%
+		\begin{align}
+			\label{discrete_LMI_1}
+			-\bo{S} - (\bo{A} + \bo{B}\bo{K})\T (-\bo{S}) (\bo{A} + \bo{B}\bo{K})  \prec 0
+		\end{align}
+		
+		Define $\bo{P}^{-1} = \bo{S}$. Note that $\bo{P} \succ 0$. We can  multiply \eqref{discrete_LMI_1} by $\bo{P}$ on both sides (congruence transformation preserves definiteness, see Appendix):
+		%
+		\begin{align}
+			-\bo{P} - \bo{P}(\bo{A} + \bo{B}\bo{K})\T (-\bo{P}^{-1}) (\bo{A} + \bo{B}\bo{K})\bo{P}  \prec 0
+			\\
+			-\bo{P} - (\bo{A}\bo{P} + \bo{B}\bo{K}\bo{P})\T (-\bo{P}^{-1}) (\bo{A}\bo{P} + \bo{B}\bo{K}\bo{P})  \prec 0
+		\end{align}
+	
+		We define $\bo{L} = \bo{K}\bo{P}$:
+		%
+		\begin{align}
+			-\bo{P} - (\bo{A}\bo{P} + \bo{B}\bo{L})\T (-\bo{P}^{-1}) (\bo{A}\bo{P} + \bo{B}\bo{L})  \prec 0
+		\end{align}
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Schur complement}
+	%	\framesubtitle{Part 1}
+	\begin{flushleft}
+		
+		\begin{theorem}[Schur complement]
+			Given matrix $\bo{M} = \begin{bmatrix}
+				\bo{A} & \bo{B} \\
+				\bo{B}\T & \bo{C}
+			\end{bmatrix}$, where $\bo{C} \prec 0$, 
+			the following statements are equivalent:
+			\begin{enumerate}
+				\item $\bo{A} - \bo{B}\T \bo{C}^{-1}\bo{B} \prec 0$
+				\item $\bo{M} \prec 0$
+			\end{enumerate}
+		\end{theorem}
+		
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Control design (discrete-time), 3}
+	%	\framesubtitle{Part 1}
+	\begin{flushleft}
+		
+		Semidefinite inequality $-\bo{P} - (\bo{A}\bo{P} + \bo{B}\bo{L})\T (-\bo{P}^{-1}) (\bo{A}\bo{P} + \bo{B}\bo{L})  \prec 0$ can transformed with Schur inequality:
+		%
+		\begin{align}
+			\begin{bmatrix}
+				-\bo{P} & \bo{A}\bo{P} + \bo{B}\bo{L} \\
+				(\bo{A}\bo{P} + \bo{B}\bo{L})\T & -\bo{P}
+			\end{bmatrix}  \prec 0
+		\end{align}
+		
+		This is a linear matrix inequality.
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+
+
+
+\begin{frame}{Appendix A}
+	\framesubtitle{Congruence transformation and definiteness}
+	\begin{flushleft}
+		
+		Consider matrices $\bo{P} \succ 0$, and $\bo{V} \in \R^{n, n}$ is full rank. We can prove that:
+		
+		\begin{equation}
+			\bo{P} \succ 0 \implies \bo{V}^\top\bo{P}\bo{V} \succ 0
+		\end{equation}
+		
+		Proof: $\bo{x}^\top\bo{V}^\top\bo{P}\bo{V}\bo{x} = \bo{z}^\top\bo{P}\bo{z}$, where $\bo{z} = \bo{V}\bo{x}$. Since $\bo{P} \succ 0$, $\bo{z}^\top\bo{P}\bo{z} \geq 0$, hence $\bo{x}^\top\bo{V}^\top\bo{P}\bo{V}\bo{x} \geq 0$. 
+		
+		\begin{definition}
+			Congruence transformation preserves semi-definiteness: $\text{det}(\bo{V}) \neq 0, \ \bo{P} \succ 0 \implies \bo{V}^\top\bo{P}\bo{V} \succ 0$
+		\end{definition}
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+\myqrframe
+
+
+
+\end{document}
