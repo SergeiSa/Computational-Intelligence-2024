@@ -72,7 +72,7 @@
 
 
 
-\begin{frame}{Least squares at a glance (3)}
+\begin{frame}{Pseudoinverse}
 	% \framesubtitle{Parameter estimation}
 	\begin{flushleft}
 		
@@ -82,7 +82,7 @@
 			\bo{x} = \bo{A}^+\bo{y}
 		\end{equation}
 		
-		We proved that this is the least-residual solution, we will prove that the solution is also \emph{smallest norm} (out of all solutions with the same residual) later in the lecture.
+		We already showed that it is the least-residual solution, later we will prove that it is also the \emph{smallest norm} solution (out of all solutions with the same residual).
 		
 	\end{flushleft}
 \end{frame}
@@ -90,11 +90,11 @@
 
 
 
-\begin{frame}{Least squares at a glance (4)}
- \framesubtitle{Orthonormal case}
+\begin{frame}{Pseudoinverse - orthonormal matrix}
+% \framesubtitle{Orthonormal case}
 	\begin{flushleft}
 		
-		Matrix $\bo{M}$ is orthonormal, meaning $\bo{M}\T \bo{M} = \bo{I}$. Its  pseudoinverse can be simplified:
+		Let matrix $\bo{M}$ be orthonormal (not necessarily square), meaning $\bo{M}\T \bo{M} = \bo{I}$. Its  pseudoinverse can be simplified:
 		
 		\begin{align}
 			\bo{M}^+ = (\bo{M}^\top\bo{M})^{-1} \bo{M}^\top = \bo{M}^\top
@@ -108,6 +108,8 @@
 			\bo{x}_{LS} = \bo{M}^\top \bo{y}
 		\end{align}
 	
+		If $\bo{M}$ is orthonormal and square, then $\bo{M}\T = \bo{M}^{-1}$.
+	
 	
 	\end{flushleft}
 \end{frame}
@@ -119,16 +121,16 @@
 	% \framesubtitle{Parameter estimation}
 	\begin{flushleft}
 		
-		Given an equation $\bo{A}\bo{x} = \bo{y}$ and least squares solution $\bo{x}_{LS} = \bo{A}^+\bo{y}$, let us compute the residual $\bo{e} = \bo{A}\bo{x}_{LS} - \bo{y}$. We substitute the solution:
+		Given an equation $\bo{A}\bo{x} = \bo{y}$ and least squares solution $\bo{x}_{LS} = \bo{A}^+\bo{y}$, let us compute the residual $\bo{e} = \bo{y} - \bo{A}\bo{x}_{LS}$. We substitute the solution:
 		 
 		\begin{equation}
-			\bo{e} = \bo{A}\bo{A}^+\bo{y} - \bo{y}
+			\bo{e} = \bo{y} - \bo{A}\bo{A}^+\bo{y}
 		\end{equation}
 		
-		We find that:
+		We observe that:
 		
 		\begin{itemize}
-			\item The residual can be found as $\bo{e} = (\bo{A}\bo{A}^+ - \bo{I})\bo{y}$.
+			\item The residual can be found as $\bo{e} = (\bo{I} - \bo{A}\bo{A}^+)\bo{y}$.
 			
 			\item The closest $\bo{A}\bo{x}$ can get to $\bo{y}$ is $\bo{y}^* = \bo{A}\bo{A}^+\bo{y}$.
 			
@@ -198,7 +200,7 @@
 		
 		\bigskip
 		
-		We will denote null space as $\mathcal{N}(\mathbf{A})$. In the literature, it is often denoted as $\text{ker}(\mathbf{A})$ or $\text{null}(\mathbf{A})$.
+		We will denote null space as $\textcolor{mydarkgray}{\text{null}(\mathbf{A})}$. Null space of an operator is sometimes called \emph{kernel} and denoted as $\textcolor{mydarkgray}{\text{ker}(\mathbf{A})}$.
 		
 	\end{flushleft}
 \end{frame}
@@ -319,12 +321,12 @@
 		\bigskip
 		
 		\begin{definition}
-			We call such vector $\bo{x}$ a \emph{projection} of $\bo{a}$ onto subspace $\mathcal{L}$, and such vector $\bo{y}$ a projection of $\bo{a}$ onto subspace $\mathcal{L}^\perp$
+			We call such vector $\bo{x}$ an \emph{orthogonal projection} of $\bo{a}$ onto subspace $\mathcal{L}$, and such vector $\bo{y}$ an orthogonal projection of $\bo{a}$ onto subspace $\mathcal{L}^\perp$
 		\end{definition}
 		
 		\bigskip
 		
-		Projection is the closest element in the subspace to a given vector. Projection of $\bo{a}$ onto $\mathcal{L}$ can be found as: 
+		Orthogonal projection maps a vector to the element in the subspace closest to that vector. Orthogonal projection of $\bo{a}$ onto $\mathcal{L}$ can be found as: 
 		
 		\begin{equation}
 			\bo{x} = \bo{L} \bo{L}^+ \bo{a}
@@ -371,7 +373,7 @@
 	
 		\bigskip
 		
-		Row space of $\bo{A}$ is the space of all smallest-norm solutions of $\bo{A}\bo{x} = \bo{y}$, for $\forall \bo{y}$. We will denote row space as $\mathcal{R}$.
+		Row space of $\bo{A}$ is the space of all smallest-norm solutions of $\bo{A}\bo{x} = \bo{y}$, for $\forall \bo{y}$. We will denote row space as $\textcolor{mydarkgray}{\text{row}(\bo{A})}$.
 		
 	\end{flushleft}
 \end{frame}
@@ -379,7 +381,7 @@
 
 
 
-\begin{frame}{Vectors in Null space, Row space}
+\begin{frame}{Vectors in Null and Row spaces}
 	% \framesubtitle{Definition}
 	\begin{flushleft}
 		
@@ -409,19 +411,20 @@
 	% \framesubtitle{Parameter estimation}
 	\begin{flushleft}
 		
-		Consider the following task: find all linear combinations of the columns of $\bo{A}$: $\{ \bo{y}: \ \bo{y} = \bo{A} \bo{x}  \}$.
+		Consider the following task: given a matrix$\bo{A}$ find all linear combinations of its columns: $\mathcal{C} = \{ \bo{y}: \ \bo{y} = \bo{A} \bo{x}, \ \forall \bo{x}  \}$.
 		
 		\bigskip
 		
 		It can be re-formulated as follows: find all elements of the \emph{column space} of $\bo{A}$.
 		
 		\begin{block}{Definition - column space}
-			\emph{Column space} of $\bo{A}$ is the set of all outputs of the matrix $\bo{A}$, for all possible inputs
+			\emph{Column space} of $\bo{A}$ is the set of all outputs of the matrix $\bo{A}$, for all possible inputs.
 		\end{block}
 		
 		\bigskip
 		
-		We will denote column space as $\mathcal{C}(\bo{A})$. In the literature, it is often called an \emph{image} of $\bo{A}$.
+		We will denote column space as $\textcolor{mydarkgray}{\text{col}(\bo{A})}$. It is often called an \emph{image} of $\bo{A}$.
+		
 		
 	\end{flushleft}
 \end{frame}
@@ -452,7 +455,7 @@
 
 
 
-\begin{frame}{Column space and null space}
+\begin{frame}{Column and null spaces}
 	% \framesubtitle{Local coordinates}
 	\begin{flushleft}
 		
@@ -462,8 +465,8 @@
 		\begin{equation}
 			\begin{aligned}
 				\bo{y} = \bo{A} \bo{x}_r = \bo{A} (\bo{x}_r + \bo{x}_n), \\
-				\bo{x}_r \in \mathcal{R}(\bo{A}) \\
-				\forall \bo{x}_n \in \mathcal{N}(\bo{A}) \\
+				\bo{x}_r \in \text{row}(\bo{A}) \\
+				\forall \bo{x}_n \in \text{null}(\bo{A}) \\
 			\end{aligned}
 		\end{equation}
 		
@@ -486,10 +489,10 @@
 		
 		\bigskip
 		
-		Since $\bo{y}_c \in \mathcal{C}(\bo{A})$, we can find such $\bo{x}$ that $\bo{A}\bo{x} = \bo{y}_c$; So, the problems is to minimize the residual $|| \bo{y}_c - \bo{y} || = || \bo{A}\bo{x} - \bo{y} ||$, which is least squares problem: $\bo{x} = \bo{A}^+ \bo{y}$. So:
+		Since $\bo{y}_c \in \text{col}(\bo{A})$, we can find such $\bo{x}$ that $\bo{A}\bo{x} = \bo{y}_c$; So, the problems is to minimize the residual $e = || \bo{y}_c - \bo{y} ||$ or equivalently $e =  || \bo{A}\bo{x} - \bo{y} ||$, which is least squares problem: $\bo{x} = \bo{A}^+ \bo{y}$. So:
 		
 		\begin{equation}
-			\bo{y}_c = \bo{A}\bo{A}^+ \bo{y} \in \mathcal{C}(\bo{A})
+			\bo{y}_c = \bo{A}\bo{A}^+ \bo{y} \in \text{col}(\bo{A})
 		\end{equation}
 		
 		Remember that computing the pseudoinverse is based on SVD decomposition, same as finding a basis in the null space or the column space, so in terms of computational expense, all projections we discussed are similar.
@@ -506,10 +509,10 @@
 		Similarly we can define a projector onto the row space. Given vector $\bo{x}$ and matrix $\bo{A}$, let us find projector of $\bo{x}$ onto the row space of $\bo{A}$:
 		
 		\begin{equation}
-			\bo{x}_r = \bo{A}^+\bo{A} \bo{x} \in \mathcal{R}(\bo{A})
+			\bo{x}_r = \bo{A}^+\bo{A} \bo{x} \in \text{row}(\bo{A})
 		\end{equation}
 		
-		You can think of this in the following terms: first we find output $\bo{A} \bo{x}$, then we find the smallest norm vector that produces this same output, and this vector has to 1) have the same row space projection (because output is the same), 2) has to lie in the row space. Hence it is the row space projector of $\bo{x}$.
+		You can think of this in the following terms: first we find output $\bo{A} \bo{x}$, then we find the smallest norm vector that produces this same output; this vector has to 1) have the same row space projection (because output is the same), 2) has zero null space projection. Hence it is the row space projector of $\bo{x}$.
 		
 		\bigskip
 		
@@ -533,7 +536,7 @@
 			Space of all vectors $\bo{y}$ orthogonal to the columns of $\bo{A}$ is called \emph{left null space}: $\bo{y}^\top\bo{A} = 0$
 		\end{definition}
 		
-		You can think of left null space as a space of vectors that not only cannot be produced by operator $\bo{A}$, but the closest vector to them that can be produced is the zero vector.
+		You can think of left null space as a space of vectors that not only cannot be produced (as an output) by the operator $\bo{A}$, but the closest vector to them that can be produced is the zero vector.
 		
 		\bigskip
 		
@@ -553,13 +556,13 @@
 		If we want to project vector $\bo{y}$ onto the left null space of $\bo{A}$, we project it onto the column space, and subtract the result from $\bo{y}$:
 		
 		\begin{equation}
-			\bo{y}_l = (\bo{I} - \bo{A}\bo{A}^+) \bo{y} \in \mathcal{C}^\perp(\bo{A})
+			\bo{y}_l = (\bo{I} - \bo{A}\bo{A}^+) \bo{y} \in \text{left null}(\bo{A})
 		\end{equation}
 		
 		If $\bo{C}$ is an orthonormal basis in the column space of $\bo{A}$, the projection can be found the following way:
 		
 		\begin{equation}
-			\bo{y}_l = (\bo{I} - \bo{C}\bo{C}^\top) \bo{y} \in \mathcal{C}^\perp(\bo{A})
+			\bo{y}_l = (\bo{I} - \bo{C}\bo{C}^\top) \bo{y} \in \text{left null}(\bo{A})
 		\end{equation}
 		
 		
@@ -751,24 +754,26 @@
 		Let us denote $\bo{P} = \bo{A}\bo{A}^+$. 
 		Let's prove that $\bo{P}\bo{P} = \bo{P}$:
 		
-		\begin{equation}
-			\bo{A} \bo{A}^+ \bo{A} \bo{A}^+ = 
+		\begin{align}
+			\bo{A} \bo{A}^+ \bo{A} \bo{A}^+ &= 
 			\bo{C} \bo{\Sigma} \bo{R}^\top 
 			\bo{R} \bo{\Sigma}^{-1} \bo{C}^\top 
 			\bo{C} \bo{\Sigma} \bo{R}^\top 
 			\bo{R} \bo{\Sigma}^{-1} \bo{C}^\top
-		\end{equation}
-		
-		\begin{equation}
-			\bo{A} \bo{A}^+ \bo{A} \bo{A}^+ = 
+			\\
+			%
+			\bo{A} \bo{A}^+ \bo{A} \bo{A}^+ &= 
 			\bo{C} \bo{\Sigma} \bo{\Sigma}^{-1}\bo{\Sigma} \bo{\Sigma}^{-1} \bo{C}^\top
-		\end{equation}	
-		
-		\begin{equation}
-			\bo{A} \bo{A}^+ \bo{A} \bo{A}^+ = 
-			\bo{C} \bo{C}^\top =
+			\\
+			%
+			\bo{A} \bo{A}^+ \bo{A} \bo{A}^+ &= 
+			\bo{C} \bo{C}^\top
+			\\
+			%
+			\bo{A} \bo{A}^+ \bo{A} \bo{A}^+ &= 
 			\bo{A} \bo{A}^+
-		\end{equation}		
+		\end{align}
+		
 		
 		The same is true for $\bo{P} = \bo{A}^+\bo{A}$: we can prove that $\bo{A}^+\bo{A} \bo{A}^+\bo{A} = \bo{A}^+\bo{A}$.
 		
@@ -785,7 +790,7 @@
 		
 		Let's prove that $\bo{P}^+ = \bo{P}$. 
 		
-		First, we find basis in the linear space where $\bo{P}$ projects onto: $\bo{C} = \text{orth}(\bo{P})$, therefore $\bo{P} = \bo{C}\bo{C}\T$.
+		First, we find basis in the linear space where $\bo{P}$ projects onto: $\bo{C} = \text{col}(\bo{P})$, therefore $\bo{P} = \bo{C}\bo{C}\T$.
 		
 		\begin{align}
 			\bo{P}\bo{P}^+ &= \bo{I}, \\
@@ -840,6 +845,27 @@
 
 
 
+
+\begin{frame}{Exercise}
+	% \framesubtitle{Local coordinates}
+	\begin{flushleft}
+		
+		Prove the following statements:
+		
+		\begin{itemize}
+			\item If $\bo{M}$ is orthonormal and square, then $\bo{M}\T = \bo{M}^{-1}$.
+			
+			\item Find minimum of $||\bo{A}\bo{x} - \bo{y}||_2$ when columns of $\bo{A}$ are not linearly independent.
+		\end{itemize}
+		
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
 \myqrframe
 
 
@@ -877,7 +903,7 @@
 		\begin{align}
 			& \bo{L}\bo{L}\T \bo{y} = \bo{0} \\
 			& \bo{L}\T \bo{L}\bo{L}\T \bo{y} = \bo{0} \\
-			& \bo{L}\T \bo{y} = \bo{0}  \ \ \ \ \ \ \textcolor{mygray}{\text{since }  \bo{L}\T \bo{L} = \bo{I}}
+			& \bo{L}\T \bo{y} = \bo{0}  \ \ \ \ \ \ \textcolor{mygray}{\text{since }  \bo{L}\T \bo{L} = \bo{I}}. \ \qed
 		\end{align}		
 		
 	\end{flushleft}
