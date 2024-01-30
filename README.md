@@ -1,6 +1,7 @@
 # Slides:
-* Lecture 1 - [Introduction](https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/Introduction)
-* Lecture 2 - [Subspaces](https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2023/tree/main/Slides/Subspaces)
+* Lecture 1 - [Introduction](https://github.com/SergeiSa/Computational-Intelligence-2024/tree/main/Slides/Introduction)
+* Lecture 2 - [Subspaces](https://github.com/SergeiSa/Computational-Intelligence-2024/tree/main/Slides/Subspaces)
+
 * Lecture 3 - [Least Squares, Quadratic Programming, Domains, Convexity](https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2023/tree/main/Slides/LeastSquares2QuadraticProgramming_Convexity)
 * Lecture 4 - [Polytopes, V and H-representation](https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2023/tree/main/Slides/H_representation)
 * Lecture 5 - [Linear Programming](https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2023/tree/main/Slides/Linear_Programming)
