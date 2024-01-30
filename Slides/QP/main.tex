@@ -1,0 +1,350 @@
+\documentclass{beamer}
+
+\input{settings.tex}
+
+
+\title{Quadratic programming}
+\subtitle{Computational Intelligence, Lecture 6}
+\author{by Sergei Savin}
+\centering
+\date{\mydate}
+
+
+
+\begin{document}
+\maketitle
+
+
+\begin{frame}{Content}
+
+\begin{itemize}
+\item  Quadratic programming
+\item  Quadratically constrained quadratic programming (QCQP)
+	\begin{itemize}
+		\item  QCQP to LP; QCQP to LP
+		\item  Ellipsoidal constraints $\rightarrow$ to canonical form
+	\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+
+
+
+\begin{frame}{Positive-definite matrices}
+	%\framesubtitle{General form}
+	\begin{flushleft}
+		
+		Positive-definite matrices the following properties:
+		
+		\begin{block}{Eigenvalues}
+			All eigenvalues of a positive-definite (PD) matrix are real and positive.
+		\end{block}
+	
+		\begin{block}{Eigenvectors}
+			Eigenvectors of a PD matrix with form an orthogonal basis.
+		\end{block}
+	
+		Proof (for the case of distinct eigenvalues): let $\bo{M}$ be a PD matrix, and $\bo{M}\bo{v} = \lambda \bo{v}$ and  $\bo{M}\bo{u} = \gamma \bo{u}$. Then:
+		%
+		\begin{align}
+			\bo{u}\T\bo{M}\bo{v} = \bo{u}\T(\bo{M}\bo{v})= \lambda \bo{u}\T \bo{v} \\
+			\bo{u}\T\bo{M}\bo{v} = (\bo{u}\T\bo{M})\bo{v}= \gamma \bo{u}\T \bo{v}
+		\end{align}
+		
+		Therefore, $ \lambda \bo{u}\T \bo{v}= \gamma \bo{u}\T \bo{v}$, and since $\lambda$ and $ \gamma$ are eigenvalues and and eigenvalues are distinct, so $\lambda \neq \gamma$. This implies that $\bo{u}\T \bo{v} = 0$.
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Quadratic programming}
+%\framesubtitle{General form}
+\begin{flushleft}
+
+Remember the general form of a quadratic program:
+
+%
+\begin{equation}
+	\begin{aligned}
+		& \underset{\bo{x}}{\text{minimize}}
+		& & \bo{x}^\top \bo{H} \bo{x} + \bo{f}^\top\bo{x}, \\
+		& \text{subject to}
+		& & \begin{cases}
+			\bo{A}\bo{x} \leq \bo{b}, \\
+			\bo{F}\bo{x} = \bo{g}.
+		\end{cases}
+	\end{aligned}
+\end{equation}
+
+where $\bo{H}$ is positive-definite and $\bo{A}\bo{x} \leq \bo{b}$ describe a convex region.
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Cost function of a QP, 1}
+	%\framesubtitle{General form}
+	\begin{flushleft}
+		
+		The cost function of a QP has the form $c(\bo{x}) = \bo{x}^\top \bo{H} \bo{x} + \bo{f}^\top\bo{x}$. Let us show that the requirement that $\mathbf{H}$ is positive-definite does not limit the range of convex problems that can be solved as a QP.
+		
+		\bigskip
+		
+		Let $\bo{M}$ be a non-symmetric matrix. Quadratic form $q(\bo{x}) = \bo{x}\T \bo{M} \bo{x}$ is a scalar and is equal to its transpose:
+		%
+		\begin{align}
+			q(\bo{x}) = \bo{x}\T \bo{M} \bo{x} \\
+			q(\bo{x}) = 0.5 (\bo{x}\T \bo{M} \bo{x} + \bo{x}\T \bo{M} \bo{x}) \\
+			q(\bo{x}) = 0.5 (\bo{x}\T \bo{M} \bo{x} + \bo{x}\T \bo{M}\T \bo{x}) \\
+			q(\bo{x}) = 0.5 \bo{x}\T( \bo{M} + \bo{M}\T )\bo{x}
+		\end{align}
+	
+		Equivalently prove that the cost function $c(\bo{x})$ is always equivalent to the cost function $c(\bo{x}) = 0.5 \bo{x}^\top (\bo{H} + \bo{H}\T) \bo{x} + \bo{f}^\top\bo{x}$. Because of that, without a loss of generality we can assume $\bo{H}$ to be symmetric.
+		
+	\end{flushleft}
+\end{frame}
+
+
+\begin{frame}{Cost function of a QP, 2}
+	%\framesubtitle{General form}
+	\begin{flushleft}
+		
+		Let us prove that $\bo{H}$ needs to be positive semi-definite in order for $c(\bo{x})$ to be convex.
+		
+		\bigskip
+		
+		Assume that one of the eigenvalues of $\bo{H}$ is negative: $\bo{H}\bo{v} = \lambda\bo{v}$, where $\lambda < 0$ and $||\bo{v}|| = 1$. We can find values of $c(0)$, $c(\bo{v})$ and $c(2\bo{v})$:
+		%
+		\begin{align}
+			c(0) &= 0 \\
+			c(\bo{v}) &= \bo{v}\T \bo{H}\bo{v} =  \lambda \bo{v}\T \bo{v} =  \lambda
+		\end{align}
+		
+		Note that $c((1 - \beta) 0 + \beta \bo{v}) = c(\beta\bo{v}) =  \lambda \beta^2$ and $(1 - \beta) c(0) + \beta c(\bo{v}) = \lambda \beta$. Since $0 < \beta < 1$ we conclude $\beta^2 < \beta$; since $\lambda < 0$, $\lambda \beta^2 > \lambda \beta$. So $c((1 - \beta) 0 + \beta \bo{v}) >  (1 - \beta) c(0) + \beta c(\bo{v})$. Thus, such $c(\bo{x})$ is not convex. \qed
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Degenerate QP}
+	%\framesubtitle{General form}
+	\begin{flushleft}
+		
+		Let us consider a QP with degenerate matrix $\bo{H} = \bo{R} \Sigma \bo{R}\T$ (without a loss of generality $\bo{H}$ can be assumed to be symmetric), where $\bo{R} \in \R^{n \times k}$.
+		%
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\bo{x}}{\text{minimize}}
+				& & \bo{x}^\top \bo{R} \Sigma \bo{R}\T \bo{x} + \bo{f}\T\bo{x}, \\
+				& \text{subject to}
+				& & \begin{cases}
+					\bo{A}\bo{x} \leq \bo{b}, \\
+					\bo{F}\bo{x} = \bo{g}.
+				\end{cases}
+			\end{aligned}
+		\end{equation}
+		%
+		Matrix $\bo{R}$ is a row-space basis of $\bo{H}$, and $\bo{N}$ is its orthogonal compliment. Then we can decompose $\bo{x}$ as $\bo{x} = \bo{R}\zeta+\bo{N}\bo{z}$:
+		%
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\zeta, \bo{z}}{\text{minimize}}
+				& & \zeta\T \Sigma \zeta + \bo{f}\T\bo{R}\zeta+\bo{f}\T\bo{N}\bo{z}, \\
+				& \text{subject to}
+				& & \begin{cases}
+					\bo{A}\bo{R}\zeta+\bo{A}\bo{N}\bo{z} \leq \bo{b}, \\
+					\bo{F}\bo{R}\zeta+\bo{F}\bo{N}\bo{z} = \bo{g}.
+				\end{cases}
+			\end{aligned}
+		\end{equation}
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+
+
+
+
+\begin{frame}{Quadratically constrained quadratic programming}
+%\framesubtitle{General form}
+\begin{flushleft}
+
+General form of a quadratically constrained quadratic program (QCQP) is given below:
+
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\mathbf{x}}{\text{minimize}}
+& & \mathbf{x}^\top \mathbf{P}_0 \mathbf{x} + \mathbf{q}_0^\top\mathbf{x}, \\
+& \text{subject to}
+& & \begin{cases}
+    \mathbf{x}^\top \mathbf{P}_i \mathbf{x} + \mathbf{q}_i^\top\mathbf{x} + r_i \leq 0, \\
+    \mathbf{F}\mathbf{x} = \mathbf{g}.
+    \end{cases}
+\end{aligned}
+\end{equation}
+
+where $\mathbf{P}_i$ are positive-definite.
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{QCQP - Domain}
+%\framesubtitle{Domain}
+\begin{flushleft}
+
+Domain of a QCQP without equality constraints and with no degenerate inequality constraints is an intersection of ellipses:
+
+\begin{figure} [h!]
+\begin{center}
+\input{fig_1.tex}
+\end{center} 
+% \caption{AR 601 bipedal robot, Innopolis University}
+\end{figure}
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{QCQP to QP and LP}
+% \framesubtitle{General form}
+\begin{flushleft}
+
+Set $\mathbf{P}_i = \mathbf{0}$ and you get a QP.
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\mathbf{x}}{\text{minimize}}
+& & \mathbf{x}^\top \mathbf{P}_0 \mathbf{x} + \mathbf{q}_0^\top\mathbf{x}, \\
+& \text{subject to}
+& & \begin{cases}
+    \begin{bmatrix} 
+    \mathbf{q}_1^\top \\ ... \\ \mathbf{q}_n^\top
+    \end{bmatrix} 
+    \mathbf{x} \leq
+    \begin{bmatrix} 
+    -r_1 \\ ... \\ -r_n
+    \end{bmatrix} \\
+    \mathbf{F}\mathbf{x} = \mathbf{g}.
+    \end{cases}
+\end{aligned}
+\end{equation}
+
+Set $\mathbf{P}_0 = \mathbf{0}$ and you get an LP.
+
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Turning ellipsoid to the canonical form (1)}
+	% \framesubtitle{General form}
+	\begin{flushleft}
+		
+		Can we re-write the expression $\mathbf{x}^\top \mathbf{P} \mathbf{x} + \mathbf{q}^\top\mathbf{x} + r \leq 0$ as a canonical form ellipsoid:
+		
+		\begin{equation}
+			\frac{z_1^2}{m_1^2} + \frac{z_2^2}{m_2^2} + ... + 
+			\frac{z_n^2}{m_n^2} \leq 1
+		\end{equation}
+		
+		We start by proposing a substitution $\bo{x}_0 = - \frac{1}{2}\bo{P}^{-1}\bo{q}$ and $-d = r - \bo{x}_0\T \bo{P} \bo{x}_0$. We can prove that: $(\bo{x} - \bo{x}_0)\T \bo{P}(\bo{x} - \bo{x}_0) - d^2 =
+		\mathbf{x}^\top \mathbf{P} \mathbf{x} + \mathbf{q}^\top\mathbf{x} + r$
+		
+		\begin{align}
+			(\bo{x} - \bo{x}_0)\T \bo{P}(\bo{x} - \bo{x}_0) - d^2 =
+			\\
+			= \bo{x}\T\bo{P}\bo{x} - 2\bo{x}_0\T\bo{P}\bo{x} + \bo{x}_0\T\bo{P}\bo{x}_0 - d^2 &=
+			\\
+			= \bo{x}\T\bo{P}\bo{x} + 2\left(\textcolor{mydarkblue}{\frac{1}{2}\bo{P}^{-1}\bo{q}}\right)\T\bo{P}\bo{x} + \bo{x}_0\T\bo{P}\bo{x}_0 + \textcolor{mydarkblue}{r - \bo{x}_0\T \bo{P} \bo{x}_0} &=
+			\\
+			= \bo{x}\T\bo{P}\bo{x} + \bo{q}\T \bo{x} + r.
+		\end{align}
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Turning ellipsoid to the canonical form (2)}
+	% \framesubtitle{General form}
+	\begin{flushleft}
+		
+		Thus our original expression became:
+		%
+		\begin{align}
+			(\bo{x} - \bo{x}_0)\T \bo{P}(\bo{x} - \bo{x}_0) - d^2 \leq 0
+		\end{align}
+	%
+		We define $\bo{A} = \sqrt{\bo{P}}$ with SVD decomposition $\bo{A} = \bo{U} \Sigma \bo{V}\T$. Defining $\bo{z} = \bo{V}\T (\bo{x} - \bo{x}_0)$ we get:
+	%
+	\begin{align}
+		(\bo{x} - \bo{x}_0)\T \bo{A}\T\bo{A}(\bo{x} - \bo{x}_0) - d^2 \leq 0 
+		\\
+		(\bo{x} - \bo{x}_0)\T  \bo{V} \Sigma \bo{U}\T  \bo{U} \Sigma \bo{V}\T(\bo{x} - \bo{x}_0) - d^2 \leq 0 
+		\\
+		(\bo{x} - \bo{x}_0)\T  \bo{V} \Sigma^2 \bo{V}\T(\bo{x} - \bo{x}_0) - d^2 \leq 0
+		\\
+		\bo{z}\T   \Sigma^2 \bo{z} - d^2 \leq 0
+		\\
+		\sum z_i^2 \sigma_i^2  \leq d^2
+	\end{align}
+%
+Defining $1/m_i^2 = \sigma_i^2 / d^2$ we get:
+%
+\begin{equation}
+	\frac{z_1^2}{m_1^2} + \frac{z_2^2}{m_2^2} + ... + 
+	\frac{z_n^2}{m_n^2} \leq 1
+\end{equation}
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+
+\begin{frame}{Homework}
+% \framesubtitle{Parameter estimation}
+\begin{flushleft}
+
+Implement a program that finds right-most point of an intersection of two ellipsoids; visualise the problem and the solution.
+
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Further reading}
+	% \framesubtitle{Local coordinates}
+	\begin{flushleft}
+		
+		\begin{itemize}
+			\item \bref{https://mitsloan-php.s3.amazonaws.com/wp-faculty/sites/30/2016/12/15032137/Symmetric-Matrices-and-Eigendecomposition.pdf}{Symmetric Matrices and Eigendecomposition. Robert M. Freund, MIT, 2014}
+			
+			
+		\end{itemize}
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+\myqrframe
+
+
+
+\end{document}

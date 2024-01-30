@@ -3,8 +3,8 @@
 \input{settings.tex}
 
 
-\title{Quadratically constrained quadratic programming, \\ Second-order cone programming}
-\subtitle{Computational Intelligence, Lecture 6}
+\title{Second-order cone programming}
+\subtitle{Computational Intelligence, Lecture 7}
 \author{by Sergei Savin}
 \centering
 \date{\mydate}
@@ -18,12 +18,6 @@
 \begin{frame}{Content}
 
 \begin{itemize}
-\item  Quadratic programming: recap
-\item  Quadratically constrained quadratic programming (QCQP)
-	\begin{itemize}
-		\item  QCQP to LP; QCQP to LP
-		\item  Ellipsoidal constraints $\rightarrow$ to canonical form
-	\end{itemize}
 \item  Second-order cone programming
 	\begin{itemize}
 		\item  SOCP to QCQP
@@ -34,171 +28,6 @@
 \end{frame}
 
 
-
-\begin{frame}{Quadratic programming}
-\framesubtitle{General form}
-\begin{flushleft}
-
-Remember the general form of a quadratic program:
-
-%
-\begin{equation}
-\begin{aligned}
-& \underset{\mathbf{x}}{\text{minimize}}
-& & \mathbf{x}^\top \mathbf{H} \mathbf{x} + \mathbf{f}^\top\mathbf{x}, \\
-& \text{subject to}
-& & \begin{cases}
-    \mathbf{A}\mathbf{x} \leq \mathbf{b}, \\
-    \mathbf{F}\mathbf{x} = \mathbf{g}.
-    \end{cases}
-\end{aligned}
-\end{equation}
-
-where $\mathbf{H}$ is positive-definite and $\mathbf{A}\mathbf{x} \leq \mathbf{b}$ describe a convex region.
- 
-\end{flushleft}
-\end{frame}
-
-
-
-
-\begin{frame}{Quadratically constrained quadratic programming}
-\framesubtitle{General form}
-\begin{flushleft}
-
-General form of a quadratically constrained quadratic program (QCQP) is given below:
-
-%
-\begin{equation}
-\begin{aligned}
-& \underset{\mathbf{x}}{\text{minimize}}
-& & \mathbf{x}^\top \mathbf{P}_0 \mathbf{x} + \mathbf{q}_0^\top\mathbf{x}, \\
-& \text{subject to}
-& & \begin{cases}
-    \mathbf{x}^\top \mathbf{P}_i \mathbf{x} + \mathbf{q}_i^\top\mathbf{x} + r_i \leq 0, \\
-    \mathbf{F}\mathbf{x} = \mathbf{g}.
-    \end{cases}
-\end{aligned}
-\end{equation}
-
-where $\mathbf{P}_i$ are positive-definite.
- 
-\end{flushleft}
-\end{frame}
-
-
-
-\begin{frame}{Quadratically constrained quadratic programming}
-\framesubtitle{Domain}
-\begin{flushleft}
-
-Domain of a QCQP without equality constraints and with no degenerate inequality constraints is an intersection of ellipses:
-
-\begin{figure} [h!]
-\begin{center}
-\input{fig_1.tex}
-\end{center} 
-% \caption{AR 601 bipedal robot, Innopolis University}
-\end{figure}
- 
-\end{flushleft}
-\end{frame}
-
-
-
-\begin{frame}{QCQP to QP and LP}
-% \framesubtitle{General form}
-\begin{flushleft}
-
-Set $\mathbf{P}_i = \mathbf{0}$ and you get a QP.
-%
-\begin{equation}
-\begin{aligned}
-& \underset{\mathbf{x}}{\text{minimize}}
-& & \mathbf{x}^\top \mathbf{P}_0 \mathbf{x} + \mathbf{q}_0^\top\mathbf{x}, \\
-& \text{subject to}
-& & \begin{cases}
-    \begin{bmatrix} 
-    \mathbf{q}_1^\top \\ ... \\ \mathbf{q}_n^\top
-    \end{bmatrix} 
-    \mathbf{x} \leq
-    \begin{bmatrix} 
-    -r_1 \\ ... \\ -r_n
-    \end{bmatrix} \\
-    \mathbf{F}\mathbf{x} = \mathbf{g}.
-    \end{cases}
-\end{aligned}
-\end{equation}
-
-Set $\mathbf{P}_0 = \mathbf{0}$ and you get an LP.
-
-\end{flushleft}
-\end{frame}
-
-
-
-\begin{frame}{Turning ellipsoid to the canonical form (1)}
-	% \framesubtitle{General form}
-	\begin{flushleft}
-		
-		Can we re-write the expression $\mathbf{x}^\top \mathbf{P} \mathbf{x} + \mathbf{q}^\top\mathbf{x} + r \leq 0$ as a canonical form ellipsoid:
-		
-		\begin{equation}
-			\frac{z_1^2}{m_1^2} + \frac{z_2^2}{m_2^2} + ... + 
-			\frac{z_n^2}{m_n^2} \leq 1
-		\end{equation}
-		
-		We start by proposing a substitution $\bo{x}_0 = - \frac{1}{2}\bo{P}^{-1}\bo{q}$ and $-d = r - \bo{x}_0\T \bo{P} \bo{x}_0$. We can prove that: $(\bo{x} - \bo{x}_0)\T \bo{P}(\bo{x} - \bo{x}_0) - d^2 =
-		\mathbf{x}^\top \mathbf{P} \mathbf{x} + \mathbf{q}^\top\mathbf{x} + r$
-		
-		\begin{align}
-			(\bo{x} - \bo{x}_0)\T \bo{P}(\bo{x} - \bo{x}_0) - d^2 =
-			\\
-			= \bo{x}\T\bo{P}\bo{x} - 2\bo{x}_0\T\bo{P}\bo{x} + \bo{x}_0\T\bo{P}\bo{x}_0 - d^2 &=
-			\\
-			= \bo{x}\T\bo{P}\bo{x} + 2\left(\textcolor{mydarkblue}{\frac{1}{2}\bo{P}^{-1}\bo{q}}\right)\T\bo{P}\bo{x} + \bo{x}_0\T\bo{P}\bo{x}_0 + \textcolor{mydarkblue}{r - \bo{x}_0\T \bo{P} \bo{x}_0} &=
-			\\
-			= \bo{x}\T\bo{P}\bo{x} + \bo{q}\T \bo{x} + r. \ \ \qed
-		\end{align}
-		
-	\end{flushleft}
-\end{frame}
-
-
-
-\begin{frame}{Turning ellipsoid to the canonical form (1)}
-	% \framesubtitle{General form}
-	\begin{flushleft}
-		
-		Thus our original expression became:
-		%
-		\begin{align}
-			(\bo{x} - \bo{x}_0)\T \bo{P}(\bo{x} - \bo{x}_0) - d^2 \leq 0
-		\end{align}
-	%
-		We define $\bo{A} = \sqrt{\bo{P}}$ and give its SVD $\bo{A} = \bo{U} \Sigma \bo{V}\T$. Defining $\bo{z} = \bo{V}\T (\bo{x} - \bo{x}_0)$ we get:
-	%
-	\begin{align}
-		(\bo{x} - \bo{x}_0)\T \bo{A}\T\bo{A}(\bo{x} - \bo{x}_0) - d^2 \leq 0 
-		\\
-		(\bo{x} - \bo{x}_0)\T  \bo{V} \Sigma \bo{U}\T  \bo{U} \Sigma \bo{V}\T(\bo{x} - \bo{x}_0) - d^2 \leq 0 
-		\\
-		(\bo{x} - \bo{x}_0)\T  \bo{V} \Sigma^2 \bo{V}\T(\bo{x} - \bo{x}_0) - d^2 \leq 0
-		\\
-		\bo{z}\T   \Sigma^2 \bo{z} - d^2 \leq 0
-		\\
-		\sum z_i^2 \sigma_i^2  \leq d^2
-	\end{align}
-%
-Defining $1/m_i^2 = \sigma_i^2 / d^2$ we get:
-%
-\begin{equation}
-	\frac{z_1^2}{m_1^2} + \frac{z_2^2}{m_2^2} + ... + 
-	\frac{z_n^2}{m_n^2} \leq 1
-\end{equation}
-		
-	\end{flushleft}
-\end{frame}
 
 
 

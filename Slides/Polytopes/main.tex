@@ -3,7 +3,7 @@
 \input{settings.tex}
 
 
-\title{Linear inequalities and H-polytopes}
+\title{Linear inequalities and polytopes}
 \subtitle{Computational Intelligence, Lecture 5}
 \author{by Sergei Savin}
 \centering
@@ -120,8 +120,8 @@ Resulting region will be easily described as $\begin{bmatrix} \mathbf{a}_1^\top 
 \end{frame}
 
 
-\begin{frame}{Half-spaces}
-\framesubtitle{H-representation}
+\begin{frame}{H-representation of a polytope}
+%\framesubtitle{}
 \begin{flushleft}
 
 The last result allows us to write any convex polytope as a matrix inequality:
@@ -140,6 +140,26 @@ And conversely, any matrix inequality \eqref{eq:ineq} represents either an empty
 \end{definition}
  
 \end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{H-representation in COP}
+	%\framesubtitle{}
+	\begin{flushleft}
+		
+		We can use containment in an H-polytope as a part of convex optimation problem. For example, the following QP includes such constraint:
+		
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\mathbf{x}}{\text{minimize}}
+				& & \mathbf{x}^\top \mathbf{H} \mathbf{x} + \mathbf{f}^\top\mathbf{x}, \\
+				& \text{subject to}
+				& & \mathbf{A}\mathbf{x} \leq \mathbf{b}.
+			\end{aligned}
+		\end{equation}
+		
+	\end{flushleft}
 \end{frame}
 
 
@@ -165,6 +185,31 @@ is an H-representation of the same square.
 \end{frame}
 
 
+\begin{frame}{V-representation in COP}
+	%\framesubtitle{}
+	\begin{flushleft}
+		
+		We can use containment in an V-polytope as a part of convex optimation problem. For example, the following QP includes such constraint:
+		
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\mathbf{x}}{\text{minimize}}
+				& & \mathbf{x}^\top \mathbf{H} \mathbf{x} + \mathbf{f}^\top\mathbf{x}, \\
+				& \text{subject to}
+				& & \begin{cases}
+					\mathbf{x} = \sum\limits_{i=1}^{n} \alpha_i  \mathbf{v}_i, \\
+					\sum\limits_{i=1}^{n} \alpha_i = 1, \\
+					\alpha_i \geq 0.
+				\end{cases}
+			\end{aligned}
+		\end{equation}
+		
+		Notice that the constraint amounts to equating $\mathbf{x}$ to a convex combination of the vertices of the V-polytope.
+		
+	\end{flushleft}
+\end{frame}
+
+
 
 \begin{frame}{H and V-representations}
 % \framesubtitle{}
@@ -177,6 +222,58 @@ To transfer from H-representation to V-representation, you need to solve \emph{v
 It is also possible to construct H-representation out of V-representation.  Both algorithms are not convex.
  
 \end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Zonotopes: G-representation}
+	% \framesubtitle{}
+	\begin{flushleft}
+		
+		A zonotope $\mathcal{Z}$ is a symmetric polytope defined by its \emph{center} $\bo{c}$ and \emph{generator} $\bo{G}$:
+		
+		\begin{equation}
+			\mathcal{Z} = \{ \bo{x}: \ \bo{x}=\bo{G}\beta+\bo{c}, \ ||\beta||_\infty \leq 1  \}
+		\end{equation}
+	
+		The set $\{ \beta: \ ||\beta||_\infty \leq 1  \}$ is a hypercube and zonotope $\mathcal{Z}$ is a projection (shadow) of this hypercube onto a lower-dimensional space; the projection is defined by the matrix $\bo{G}$.
+		
+		% TODO: \usepackage{graphicx} required
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.4\linewidth]{zonotope_example}
+			\caption{Zonotope (\bref{https://www.researchgate.net/publication/322671928_Methods_for_order_reduction_of_zonotopes}{Source}) }
+			\label{fig:zonotopeexample}
+		\end{figure}
+		%https://www.researchgate.net/publication/322671928_Methods_for_order_reduction_of_zonotopes
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{G-representation in COP}
+	%\framesubtitle{}
+	\begin{flushleft}
+		
+		We can use containment in an G-polytope as a part of convex optimation problem. For example, the following QP includes such constraint:
+		
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\mathbf{x}}{\text{minimize}}
+				& & \mathbf{x}^\top \mathbf{H} \mathbf{x} + \mathbf{f}^\top\mathbf{x}, \\
+				& \text{subject to}
+				& & \begin{cases}
+					\mathbf{x} = \bo{G}\beta+\bo{c}, \\
+					-1 \geq \beta_i \geq 1.
+				\end{cases}
+			\end{aligned}
+		\end{equation}
+		
+	\end{flushleft}
 \end{frame}
 
 
@@ -200,11 +297,11 @@ Which allows to represent constraints on $\mathbf{x}$ to belong in such a region
 % \framesubtitle{Parameter estimation}
 \begin{flushleft}
 
-Represent in matrix inequality form the following figures:
+Write H-representation of the following polytopes:
 
 \begin{itemize}
     \item Equilateral triangle
-    \item A square
+    \item Square
     \item Parallelepiped
     \item Trapezoid
 \end{itemize}
