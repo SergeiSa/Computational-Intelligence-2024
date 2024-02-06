@@ -37,17 +37,17 @@ jobs:
           root_file: main.tex
           working_directory: Slides/Subspaces/
 
-      - name: Compile LaTeX document LeastSquares2QuadraticProgramming_Convexity
+      - name: Compile LaTeX document OptimizationProblems_AnalyticSolutions
         uses: xu-cheng/latex-action@master
         with:
           root_file: main.tex
-          working_directory: Slides/LeastSquares2QuadraticProgramming_Convexity/
+          working_directory: Slides/OptimizationProblems_AnalyticSolutions/
 
-      - name: Compile LaTeX document H_representation
+      - name: Compile LaTeX document ConvexProgramming_Domain
         uses: xu-cheng/latex-action@master
         with:
           root_file: main.tex
-          working_directory: Slides/H_representation/
+          working_directory: Slides/ConvexProgramming_Domain/
 
       - name: Compile LaTeX document Linear_Programming
         uses: xu-cheng/latex-action@master
@@ -133,17 +133,17 @@ jobs:
           name: Subspaces.pdf
           path: Slides/Subspaces/main.pdf
 
-      - name: Save LeastSquares2QuadraticProgramming_Convexity artifact
+      - name: Save OptimizationProblems_AnalyticSolutions artifact
         uses: actions/upload-artifact@v1
         with:
-          name: LeastSquares2QuadraticProgramming_Convexity.pdf
-          path: Slides/LeastSquares2QuadraticProgramming_Convexity/main.pdf
+          name: OptimizationProblems_AnalyticSolutions.pdf
+          path: Slides/OptimizationProblems_AnalyticSolutions/main.pdf
 
-      - name: Save H_representation artifact
+      - name: Save ConvexProgramming_Domain artifact
         uses: actions/upload-artifact@v1
         with:
-          name: H_representation.pdf
-          path: Slides/H_representation/main.pdf
+          name: ConvexProgramming_Domain.pdf
+          path: Slides/ConvexProgramming_Domain/main.pdf
 
       - name: Save Linear_Programming artifact
         uses: actions/upload-artifact@v1
@@ -215,8 +215,8 @@ jobs:
           git add Syllabus/main.pdf
           git add Slides/Introduction/main.pdf
           git add Slides/Subspaces/main.pdf
-          git add Slides/LeastSquares2QuadraticProgramming_Convexity/main.pdf
-          git add Slides/H_representation/main.pdf
+          git add Slides/OptimizationProblems_AnalyticSolutions/main.pdf
+          git add Slides/ConvexProgramming_Domain/main.pdf
           git add Slides/Linear_Programming/main.pdf
           git add Slides/QCQP_SOCP/main.pdf
           git add Slides/SDP/main.pdf
