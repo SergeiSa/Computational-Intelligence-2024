@@ -16,13 +16,13 @@
 
 # Lecture videos:
 
-* Lecture 1, part 1 (Introduction) - https://youtu.be/p8zJBN9Ryss 
-* Lecture 1, part 2 (Least Squares, Subspaces, Projectors) - https://youtu.be/SMJ2rksdQxo 
-* Lecture 2 (SVD) - https://youtu.be/ueXQMFpRN8c 
-* Lecture 3 (Least Squares, Quadratic Programming, Domains) - https://youtu.be/YFDy1VpeS2Y
-* Lecture 4, part 1 (Convex domains, Convex functions, Convex optimization) - https://youtu.be/sBtbFg8fdmA
-* Lecture 4, part 2 (H-representation) - https://youtu.be/xPvEJ3roZW4
-* Lecture 5 (Linear Programming) - https://youtu.be/9GU4f8O-GX4
+* Lecture 1 (Introduction; Least Squares, Subspaces, Projectors) - https://youtu.be/o_OTmC123KU
+* Lecture 2 (SVD) - https://youtu.be/v04SK77nK1g
+* Lecture 3 (Least Squares, Quadratic Programming, Domains) - https://youtu.be/2lLLiojbwN0
+* Lecture 4, (Convex domains, Convex functions, Convex optimization) - https://youtu.be/BHwLfZokz2I
+* Lecture 5 (Linear Programming) - https://youtu.be/zmPjFrdFGnQ
+
+* 
 * Lecture 6 (QCQP, Second-order cone program) - https://youtu.be/VlxSfOiYHgA
 * Lecture 7 (SDP, LMI, ellipsoids) - https://youtu.be/BPpbTxbfFTc
 * Lecture 8 (Robustness and LMI) - https://youtu.be/YcoPosPCYuE
