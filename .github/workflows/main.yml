@@ -55,11 +55,11 @@ jobs:
           root_file: main.tex
           working_directory: Slides/Linear_Programming/
 
-      - name: Compile LaTeX document QCQP_SOCP
+      - name: Compile LaTeX document QP
         uses: xu-cheng/latex-action@master
         with:
           root_file: main.tex
-          working_directory: Slides/QCQP_SOCP/
+          working_directory: Slides/QP/
 
       - name: Compile LaTeX document SDP
         uses: xu-cheng/latex-action@master
@@ -151,11 +151,11 @@ jobs:
           name: Linear_Programming.pdf
           path: Slides/Linear_Programming/main.pdf
 
-      - name: Save QCQP_SOCP artifact
+      - name: Save QP artifact
         uses: actions/upload-artifact@v1
         with:
-          name: QCQP_SOCP.pdf
-          path: Slides/QCQP_SOCP/main.pdf
+          name: QP.pdf
+          path: Slides/QP/main.pdf
 
       - name: Save SDP artifact
         uses: actions/upload-artifact@v1
@@ -218,7 +218,7 @@ jobs:
           git add Slides/OptimizationProblems_AnalyticSolutions/main.pdf
           git add Slides/ConvexProgramming_Domain/main.pdf
           git add Slides/Linear_Programming/main.pdf
-          git add Slides/QCQP_SOCP/main.pdf
+          git add Slides/QP/main.pdf
           git add Slides/SDP/main.pdf
           git add Slides/LMI_Control/main.pdf
           git add Slides/MICP/main.pdf
