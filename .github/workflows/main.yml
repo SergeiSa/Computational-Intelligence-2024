@@ -127,7 +127,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: Introduction.pdf
-          path: Slides/Introduction/main.pdf
+          path: Slides/Introduction.pdf
 
       - name: Save Subspaces artifact
         uses: actions/upload-artifact@v1
@@ -233,7 +233,7 @@ jobs:
         run: |
           git config --global user.name 'CI PDF compiler'
           git config --global user.email '<>'
-          git add Slides/Introduction/main.pdf
+          git add Slides/Introduction.pdf
           git add Slides/Subspaces/main.pdf
           git add Slides/OptimizationProblems_AnalyticSolutions/main.pdf
           git add Slides/ConvexProgramming_Domain/main.pdf
