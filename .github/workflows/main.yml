@@ -31,91 +31,6 @@ jobs:
           root_file: main.tex
           working_directory: Slides/Subspaces/
 
-      - name: Compile LaTeX document OptimizationProblems_AnalyticSolutions
-        uses: xu-cheng/latex-action@master
-        with:
-          root_file: main.tex
-          working_directory: Slides/OptimizationProblems_AnalyticSolutions/
-
-      - name: Compile LaTeX document ConvexProgramming_Domain
-        uses: xu-cheng/latex-action@master
-        with:
-          root_file: main.tex
-          working_directory: Slides/ConvexProgramming_Domain/
-
-      - name: Compile LaTeX document Polytopes
-        uses: xu-cheng/latex-action@master
-        with:
-          root_file: main.tex
-          working_directory: Slides/Polytopes/
-
-      - name: Compile LaTeX document Linear_Programming
-        uses: xu-cheng/latex-action@master
-        with:
-          root_file: main.tex
-          working_directory: Slides/Linear_Programming/
-
-      - name: Compile LaTeX document QP
-        uses: xu-cheng/latex-action@master
-        with:
-          root_file: main.tex
-          working_directory: Slides/QP/
-
-      - name: Compile LaTeX document SOCP
-        uses: xu-cheng/latex-action@master
-        with:
-          root_file: main.tex
-          working_directory: Slides/SOCP/
-
-      - name: Compile LaTeX document SDP
-        uses: xu-cheng/latex-action@master
-        with:
-          root_file: main.tex
-          working_directory: Slides/SDP/
-
-      - name: Compile LaTeX document LMI_Control
-        uses: xu-cheng/latex-action@master
-        with:
-          root_file: main.tex
-          working_directory: Slides/LMI_Control/
-
-      - name: Compile LaTeX document MICP
-        uses: xu-cheng/latex-action@master
-        with:
-          root_file: main.tex
-          working_directory: Slides/MICP/
-
-      - name: Compile LaTeX document RobustOptimization
-        uses: xu-cheng/latex-action@master
-        with:
-          root_file: main.tex
-          working_directory: Slides/RobustOptimization/
-
-      - name: Compile LaTeX document Dual_KKT
-        uses: xu-cheng/latex-action@master
-        with:
-          root_file: main.tex
-          working_directory: Slides/Dual_KKT/
-
-      - name: Compile LaTeX document InteriorPoint
-        uses: xu-cheng/latex-action@master
-        with:
-          root_file: main.tex
-          working_directory: Slides/InteriorPoint/
-
-
-
-      - name: Compile LaTeX document MPC
-        uses: xu-cheng/latex-action@master
-        with:
-          root_file: main.tex
-          working_directory: Slides/MPC/
-
-      - name: Compile LaTeX document Extra_SPP
-        uses: xu-cheng/latex-action@master
-        with:
-          root_file: main.tex
-          working_directory: Slides/Extra_SPP/
 
 
 
@@ -127,7 +42,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: Introduction.pdf
-          path: Slides/Introduction.pdf
+          path: Slides/Introduction/main.pdf
 
       - name: Save Subspaces artifact
         uses: actions/upload-artifact@v1
@@ -135,91 +50,6 @@ jobs:
           name: Subspaces.pdf
           path: Slides/Subspaces/main.pdf
 
-      - name: Save OptimizationProblems_AnalyticSolutions artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: OptimizationProblems_AnalyticSolutions.pdf
-          path: Slides/OptimizationProblems_AnalyticSolutions/main.pdf
-
-      - name: Save ConvexProgramming_Domain artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: ConvexProgramming_Domain.pdf
-          path: Slides/ConvexProgramming_Domain/main.pdf
-
-      - name: Save Polytopes artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: Polytopes.pdf
-          path: Slides/Polytopes/main.pdf
-
-      - name: Save Linear_Programming artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: Linear_Programming.pdf
-          path: Slides/Linear_Programming/main.pdf
-
-      - name: Save QP artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: QP.pdf
-          path: Slides/QP/main.pdf
-
-      - name: Save SOCP artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: SOCP.pdf
-          path: Slides/SOCP/main.pdf
-
-      - name: Save SDP artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: SDP.pdf
-          path: Slides/SDP/main.pdf
-
-      - name: Save LMI_Control artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: LMI_Control.pdf
-          path: Slides/LMI_Control/main.pdf
-
-      - name: Save MICP artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: MICP.pdf
-          path: Slides/MICP/main.pdf
-
-      - name: Save RobustOptimization artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: RobustOptimization.pdf
-          path: Slides/RobustOptimization/main.pdf
-
-      - name: Save Dual_KKT artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: Dual_KKT.pdf
-          path: Slides/Dual_KKT/main.pdf
-
-      - name: Save InteriorPoint artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: InteriorPoint.pdf
-          path: Slides/InteriorPoint/main.pdf
-
-
-
-      - name: Save MPC artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: MPC.pdf
-          path: Slides/MPC/main.pdf
-
-      - name: Save Extra_SPP artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: Extra_SPP.pdf
-          path: Slides/Extra_SPP/main.pdf
 
 
 
@@ -231,24 +61,11 @@ jobs:
       - name: Update compiled PDFs in git repository
         if: github.event.pull_request.merged == true || github.event_name == 'push'
         run: |
+          mv Slides/Introduction/main.pdf Slides/Introduction.pdf
           git config --global user.name 'CI PDF compiler'
           git config --global user.email '<>'
           git add Slides/Introduction.pdf
           git add Slides/Subspaces/main.pdf
-          git add Slides/OptimizationProblems_AnalyticSolutions/main.pdf
-          git add Slides/ConvexProgramming_Domain/main.pdf
-          git add Slides/Polytopes/main.pdf
-          git add Slides/Linear_Programming/main.pdf
-          git add Slides/QP/main.pdf
-          git add Slides/SOCP/main.pdf
-          git add Slides/SDP/main.pdf
-          git add Slides/LMI_Control/main.pdf
-          git add Slides/MICP/main.pdf
-          git add Slides/RobustOptimization/main.pdf
-          git add Slides/Dual_KKT/main.pdf
-          git add Slides/InteriorPoint/main.pdf
-          git add Slides/MPC/main.pdf
-          git add Slides/Extra_SPP/main.pdf
 
           git commit -m "Update compiled PDFs"
           git push
