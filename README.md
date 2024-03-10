@@ -1,35 +1,22 @@
 # Slides:
-* Lecture 1 - [Introduction](https://github.com/SergeiSa/Computational-Intelligence-2024/tree/main/Slides/Introduction)
-* Lecture 2 - [Subspaces](https://github.com/SergeiSa/Computational-Intelligence-2024/tree/main/Slides/Subspaces)
+* Lecture 1 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/Introduction.pdf
+* Lecture 2 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/Subspaces.pdf
+* Lecture 3 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/OptimizationProblems_AnalyticSolutions.pdf
+* Lecture 4 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/ConvexProgramming_Domain.pdf
+* Lecture 5 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/Polytopes.pdf
+* Lecture 6 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/Linear_Programming.pdf
+* Lecture 7 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/QP.pdf
+* Lecture 8 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/SOCP.pdf
+* Lecture 9 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/SDP.pdf
+* Lecture 10 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/LMI_Control.pdf
+* Lecture 11 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/RobustOptimization.pdf
+* Lecture 12 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/MICP.pdf
+* Lecture 13 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/Dual_KKT.pdf
+* Lecture 14 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/InteriorPoint.pdf
 
-* Lecture 3 - [Least Squares, Quadratic Programming, Domains, Convexity](https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2023/tree/main/Slides/LeastSquares2QuadraticProgramming_Convexity)
-* Lecture 4 - [Polytopes, V and H-representation](https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2023/tree/main/Slides/H_representation)
-* Lecture 5 - [Linear Programming](https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2023/tree/main/Slides/Linear_Programming)
-* Lecture 6 - [QCQP, Second-Order Cone Programming](https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2023/tree/main/Slides/QCQP_SOCP)
-* Lecture 7 - [Semidefinite Programming, Ellipsoids](https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2023/tree/main/Slides/SDP)
-* Lecture 8 - [LMI in Control, Robust Control Design](https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2023/tree/main/Slides/LMI_Control)
-* Lecture 9 - [Mixed-Integer Convex Programming](https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2023/tree/main/Slides/MICP)
-* Lecture 10 - [Robust Optimization](https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2023/tree/main/Slides/MiniMax)
-* Lecture 11 - [Model-predictive control](https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2023/tree/main/Slides/MPC)
-* Lecture 12 - [Barrier function, Sensitivity](https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2023/tree/main/Slides/BarrierFunctions)
-* Lecture 13 - [Shortest path on graphs](https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2023/tree/main/Slides/Extra_SPP)
+* Extra 1 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/Extra_SPP.pdf
+* Extra 2 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/MPC.pdf
 
-# Lecture videos:
-
-* Lecture 1 (Introduction; Least Squares, Subspaces, Projectors) - https://youtu.be/o_OTmC123KU
-* Lecture 2 (SVD) - https://youtu.be/v04SK77nK1g
-* Lecture 3 (Least Squares, Quadratic Programming, Domains) - https://youtu.be/2lLLiojbwN0
-* Lecture 4, (Convex domains, Convex functions, Convex optimization) - https://youtu.be/BHwLfZokz2I
-* Lecture 5 (Linear Programming) - https://youtu.be/zmPjFrdFGnQ
-
-* 
-* Lecture 6 (QCQP, Second-order cone program) - https://youtu.be/VlxSfOiYHgA
-* Lecture 7 (SDP, LMI, ellipsoids) - https://youtu.be/BPpbTxbfFTc
-* Lecture 8 (Robustness and LMI) - https://youtu.be/YcoPosPCYuE
-* Lecture 9 (Mixed Integer Convex Programming) - https://youtu.be/QDk5AF7j3Ak
-* Lecture 10 (Robust optimization) - https://youtu.be/NRj_n3BrjFM
-* Lecture 11 (Barrier functions) - https://youtu.be/7tkD2h0rmaM
-* Lecture 12 (Shortest path on graph) - https://youtu.be/dxRQvmlAU1k
 
 # Reference material
 
