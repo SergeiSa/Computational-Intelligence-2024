@@ -28,22 +28,21 @@
 
 
 \begin{frame}{Linear Programming}
-\framesubtitle{General form}
 \begin{flushleft}
 
 A linear program (LP) is an optimization problem of the form:
 
 \begin{equation} \label{LP}
-\begin{aligned}
-& \underset{\mathbf{x}}{\text{minimize}}
-& & \mathbf{f}^\top \mathbf{x} , \\
-& \text{subject to}
-& & \begin{cases} 
-\mathbf{A}\mathbf{x} \leq \mathbf{b}, \\
-\mathbf{C}\mathbf{x} = \mathbf{d}.
-\end{cases}
-%
-\end{aligned}
+	\begin{aligned}
+		& \underset{\bo{x}}{\text{minimize}}
+		& & \bo{f}^\top \bo{x} , \\
+		& \text{subject to}
+		& & \begin{cases} 
+			\bo{A}\bo{x} \leq \bo{b}, \\
+			\bo{C}\bo{x} = \bo{d}.
+		\end{cases}
+		%
+	\end{aligned}
 \end{equation}
 
 It is one of the older and widely used classes of convex optimization problems. 
@@ -54,6 +53,104 @@ Note that the solution of such problem will always lie on the boundary of its do
  
 \end{flushleft}
 \end{frame}
+
+
+
+\begin{frame}{LP - simpler formulations, 1}
+	\begin{flushleft}
+		
+		Inequality $\bo{A}\bo{x} \leq \bo{b}$ can be re-written as a combination of two constraints: $\bo{A}\bo{x} - \bo{b} = -\bo{z}$ and $\bo{z} \geq 0$. Thus, we can re-write the LP as:
+		
+		
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\bo{x}, \bo{z}}{\text{minimize}}
+				& & \bo{f}^\top \bo{x} , \\
+				& \text{subject to}
+				& & \begin{cases} 
+					\bo{A}\bo{x} - \bo{z} = \bo{b}, \\
+					\bo{C}\bo{x} = \bo{d}, \\
+					\bo{z} \geq 0
+				\end{cases}
+				%
+			\end{aligned}
+		\end{equation}
+		
+		Domain of the variable $\bo{x}$ is $\mathbb{X} = \{ \bo{x}:  \R^n \}$ and the domain of the variable $\bo{z}$ is $\mathbb{Z} = \{ \bo{z}:  \bo{z} \geq 0 \}$.
+		
+		\bigskip 
+		
+		Domain of the entire proble can be described as direct sum $\mathbb{X}  \oplus \mathbb{Z}$ intersected by the hyperplane 
+		$
+		\begin{bmatrix}
+			\bo{A} & - \bo{I} \\
+			\bo{C} & \bo{0}
+		\end{bmatrix}
+		\begin{bmatrix}
+			\bo{x} \\
+			\bo{z} 
+		\end{bmatrix}
+		=
+		\begin{bmatrix}
+			\bo{b} \\
+			\bo{d}
+		\end{bmatrix}
+		$.
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{LP - simpler formulations, 2}
+	\begin{flushleft}
+		
+		Equality $\bo{C}\bo{x} = \bo{d}$ can be solved as $\bo{x} = \bo{C}^+\bo{d} + \bo{N}\bo{y}$. Thus, we can re-write the inequality $\bo{A}\bo{x} \leq \bo{b}$ as:
+		
+		\begin{align}
+			\bo{A}(\bo{C}^+\bo{d} + \bo{N}\bo{y})  \leq \bo{b} 
+			\\
+			\bo{A}\bo{N}\bo{y}  \leq \bo{b} - \bo{A}\bo{C}^+\bo{d} 
+			\\
+			\bo{A}\bo{N}\bo{y}  \leq \bo{b}_0
+		\end{align}
+		%
+		where $\bo{b}_0 = \bo{b} - \bo{A}\bo{C}^+\bo{d} $. Thus we get LP in the following form:
+		
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\bo{y}}{\text{minimize}}
+				& & \bo{f}^\top \bo{N}\T \bo{y} , \\
+				& \text{subject to}
+				& & \bo{A}\bo{N}\bo{y}  \leq \bo{b}_0
+				%
+			\end{aligned}
+		\end{equation}
+		
+		Domain of this problem is a polytope $\bo{A}\bo{N}\bo{y}  \leq \bo{b}_0$.
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{LP geometry}
+	\begin{flushleft}
+		
+		% TODO: \usepackage{graphicx} required
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.70\linewidth]{LP_domain}
+			\caption{Geometry of an LP problem - example.  \bref{https://people.richland.edu/james/lecture/m116/systems/linear.html}{Credit} }
+			\label{fig:lpdomain}
+		\end{figure}
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
 
 
 
@@ -200,29 +297,29 @@ Their representation as LP is:
 
 
 
-\begin{frame}{Zero-infinity function}
-%	\framesubtitle{Code}
-	\begin{flushleft}
-		
-		Consider a function that returns 0 for negative inputs, and infinity for positive ones:
-		
-		\begin{equation}
-			f(x) = 
-			\begin{cases}
-				0 &x \leq 0 \\
-				\infty &x > 0
-			\end{cases}
-		\end{equation}
-	
-		We can equivalently replace it with the following piece-wise linear function:
-		
-		\begin{equation}
-			f(x) = 
-			\underset{\lambda \geq 0}{\text{max}}  \  \lambda x
-		\end{equation}		
-		
-	\end{flushleft}
-\end{frame}
+%\begin{frame}{Zero-infinity function}
+%%	\framesubtitle{Code}
+%	\begin{flushleft}
+%		
+%		Consider a function that returns 0 for negative inputs, and infinity for positive ones:
+%		
+%		\begin{equation}
+%			f(x) = 
+%			\begin{cases}
+%				0 &x \leq 0 \\
+%				\infty &x > 0
+%			\end{cases}
+%		\end{equation}
+%	
+%		We can equivalently replace it with the following piece-wise linear function:
+%		
+%		\begin{equation}
+%			f(x) = 
+%			\underset{\lambda \geq 0}{\text{max}}  \  \lambda x
+%		\end{equation}		
+%		
+%	\end{flushleft}
+%\end{frame}
 
 
 
@@ -447,6 +544,21 @@ Implement linear approximation of a convex function and solve it as LP
 
 \end{flushleft}
 \end{frame}
+
+
+
+
+
+\begin{frame}{Further reading}
+	% \framesubtitle{Parameter estimation}
+	\begin{flushleft}
+		
+		\bref{https://fmin.xyz/docs/methods/Simplex.html}{Linear Programming and simplex algorithm}, fmin.
+		
+	\end{flushleft}
+\end{frame}
+
+
 
 
 

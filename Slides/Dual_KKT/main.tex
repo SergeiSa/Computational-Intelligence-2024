@@ -1,0 +1,346 @@
+\documentclass{beamer}
+
+\input{settings.tex}
+
+
+\title{Duality, Sensitivity, KKT}
+\subtitle{Computational Intelligence, Lecture 13}
+\author{by Sergei Savin}
+\centering
+\date{\mydate}
+
+
+
+\begin{document}
+\maketitle
+
+
+\begin{frame}{Content}
+
+\begin{itemize}
+\item Lagrange dual function
+\item Duality gap, strong and weak duality
+\item KKT conditions
+\item Sensitivity
+\end{itemize}
+
+\end{frame}
+
+
+
+
+
+
+
+\begin{frame}{Lagrangian}
+	% \framesubtitle{General form}
+	\begin{flushleft}
+		
+		Consider an optimization problem:
+		
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\bo{x}}{\text{minimize}}
+				& & f_0(\bo{x}), \\
+				& \text{subject to}
+				& & \begin{cases}
+					f_i(\bo{x}) \leq 0, \\
+					h_j(\bo{x}) = 0.
+				\end{cases}
+			\end{aligned}
+		\end{equation}
+		
+		It's \emph{Lagrangian} is given as:
+		
+		\begin{equation}
+			L(\bo{x}, \lambda_i, \nu_j) = 
+			f_0(\bo{x}) + 
+			\sum\limits_i \lambda_i f_i(\bo{x}) +
+			\sum\limits_j \nu_j h_j(\bo{x})
+		\end{equation}
+	%
+	where $\lambda_i$ and $\nu_j$ are Lagrange multipliers; they are sometimes called \emph{dual variables}.
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Lagrange dual function}
+	% \framesubtitle{General form}
+	\begin{flushleft}
+		
+	Given \emph{Lagrangian} $L(\bo{x}, \lambda_i, \nu_j) = 
+	f_0(\bo{x}) + 
+	\sum\limits_i \lambda_i f_i(\bo{x}) +
+	\sum\limits_j \nu_j h_j(\bo{x})$, the associated 
+	 \emph{Lagrange dual function} is given as:
+		
+		\begin{equation}
+			g(\lambda_i, \nu_j)  = \underset{\bo{x}}{\text{inf}}
+			\ L(\bo{x}, \lambda_i, \nu_j).
+		\end{equation}
+		
+		Lagrange dual function is \textbf{always concave}. If $p^*$ is the optimal value of the cost function of the original problem, then $g(\lambda_i, \nu_j)$ gives as a \emph{lower bound} on its possible values. 
+		
+		\bigskip
+		
+		In fact, substituting any $\nu_j$ and $\lambda_i > 0$ gives us a valid lower bound on the cost. Maximum of $g(\lambda_i, \nu_j)$ over the domain given by $\lambda_i > 0$ provides us optimal (largest) lower bound of the problem, denoted as $g^*$. 
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Duality gap, strong and weak duality}
+	% \framesubtitle{General form}
+	\begin{flushleft}
+		
+		If $p^*$ is the optimal value of the cost function of the original problem and $g^*$ is the optimal lower bound of the problem, then $p^* - g^*$ is called optimal \emph{duality gap}.
+		
+		\bigskip
+		
+		If optimal duality gap is zero, the problem is said to have \emph{strong duality}. If optimal duality gap greater than zero, the problem is said to have \emph{weak duality}.
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Lagrange dual function for a QP, 1}
+	% \framesubtitle{General form}
+	\begin{flushleft}
+		
+		Consider the following QP:
+		
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\bo{x}}{\text{minimize}}
+				& & \bo{x}^\top \bo{H} \bo{x}, \\
+				& \text{subject to}
+				& & \bo{A}\bo{x} \leq \bo{b}.
+			\end{aligned}
+		\end{equation}
+		%
+		Its Lagrangian is:
+		%
+		\begin{equation}
+			L(\bo{x}, \lambda) = \bo{x}^\top \bo{H} \bo{x} + \lambda^\top (\bo{A}\bo{x} - \bo{b})
+		\end{equation}
+		
+		In order to minimize the Lagrangian with respect to $\bo{x}$ we find the gradient and set it to zero:
+		%
+		\begin{equation}
+			\frac{\partial L(\bo{x}, \lambda)}{\partial \bo{x}} = 2\bo{x}^\top \bo{H} + \lambda^\top \bo{A} = 0
+		\end{equation}
+		
+		With that we can compute $\bo{x}$ as a function of $\lambda$:
+		%
+		\begin{equation}
+			\bo{x} = -0.5\bo{H}^{-1}\bo{A}^\top \lambda
+		\end{equation}
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Lagrange dual function for a QP, 2}
+	% \framesubtitle{General form}
+	\begin{flushleft}
+		
+		Knowing that $\bo{x} = -0.5\bo{H}^{-1}\bo{A}^\top \lambda$ we can compute $g(\lambda)$ by substituting the $\bo{x}$ we found into the Lagrangian:
+		%
+		\begin{equation}
+			g(\lambda) = \frac{1}{4} \lambda^\top \bo{A}\bo{H}^{-1}\bo{H}\bo{H}^{-1}\bo{A}^\top\lambda - \frac{1}{2} \lambda^\top \bo{A}\bo{H}^{-1}\bo{A}^\top \lambda - \lambda^\top\bo{b}
+		\end{equation}
+	%
+	\begin{equation}
+		g(\lambda) = -\frac{1}{4} \lambda^\top \bo{A}\bo{H}^{-1}\bo{A}^\top\lambda - \lambda^\top\bo{b}
+	\end{equation}
+		
+		In order to find the optimal lower bound we solve the following problem:
+		%
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\lambda}{\text{maximize}}
+				& & -\frac{1}{4} \lambda^\top \bo{A}\bo{H}^{-1}\bo{A}^\top\lambda - \lambda^\top\bo{b}, \\
+				& \text{subject to}
+				& & \lambda \geq 0.
+			\end{aligned}
+		\end{equation}
+		
+		Solution of this problem is the solution of the original problem.
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{KKT conditions}
+	% \framesubtitle{General form}
+	\begin{flushleft}
+		
+		Karush-Kuhn-Tucker (KKT) conditions certify optimality of an optimization problem:
+		
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\bo{x}}{\text{minimize}}
+				& & f_0(\bo{x}), \\
+				& \text{subject to}
+				& & \begin{cases}
+					f_i(\bo{x}) \leq 0, \\
+					h_j(\bo{x}) = 0.
+				\end{cases}
+			\end{aligned}
+		\end{equation}
+		
+		\begin{enumerate}
+			\item Primal feasibility: $f_i(\bo{x}) \leq 0$ and $h_j(\bo{x}) = 0$.
+			
+			\item Dual feasibility: $\lambda_i \geq 0$.
+			
+			\item Complementarity slackness: $\lambda_i f_i(\bo{x}) = 0$.
+			
+			\item Lagrangian stationarity: $\frac{\partial}{\partial \bo{x}} 
+			\left ( f_0(\bo{x}) + 
+			\sum\limits_i \lambda_i f_i(\bo{x}) +
+			\sum\limits_j \nu_j h_j(\bo{x}) \right ) = 0$.
+		\end{enumerate}
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+
+
+
+\begin{frame}{Sensitivity, 1}
+	% \framesubtitle{General form}
+	\begin{flushleft}
+		
+		
+		Optimal values of Lagrange variables $\lambda$ determine local sensitivity of the system with respect to small perturbations of constraints.
+		
+		\bigskip
+		
+		Consider perturbed optimization problem:
+		
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\bo{x}}{\text{minimize}}
+				& & f_0(\bo{x}), \\
+				& \text{subject to}
+				& & \begin{cases}
+					f_i(\bo{x}) \leq u_i, \\
+					h_j(\bo{x}) = v_j.
+				\end{cases}
+			\end{aligned}
+		\end{equation}
+		
+		where $u_i$ and $v_j$ - perturbations of the constraints. Let $p(\bo{u}, \bo{v})$ be optimal value of the cost function for given values of $u_i$ and $v_j$. Then $p(0, 0)$ is the optimal value of the unperturbed problem.
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+%\begin{frame}{Sensitivity, 2}
+%	% \framesubtitle{General form}
+%	\begin{flushleft}
+%		
+%		
+%		Given strong duality, $p(0, 0) = g(\lambda^*, \nu^*)$ where $g(\cdot, \cdot)$ is the value of dual problem cost and $\lambda^*, \nu^*$ are optimal values of the Lagrange variables:
+%		
+%		\begin{align}
+%			p(0, 0) = g(\lambda^*, \nu^*) \leq L(\bo{x}, \lambda^*, \nu^*) = \\
+%			= 
+%			f_0(\bo{x}) + 
+%			\sum\limits_i \lambda_i^* f_i(\bo{x}) +
+%			\sum\limits_j \nu_j^* h_j(\bo{x}) \leq \\
+%			\leq 
+%			f_0(\bo{x}) + 
+%			\sum\limits_i \lambda_i^* u_i +
+%			\sum\limits_j \nu_j^* v_j
+%		\end{align}
+%		
+%		Thus we conclude that optimal cost function value (given $u_i$ and $v_j$) is given as:
+%		
+%		\begin{equation}
+%			p(\bo{u}, \bo{v}) \geq 
+%			p(0, 0)
+%			-
+%			\sum\limits_i \lambda_i^* f_i(\bo{x}) -
+%			\sum\limits_j \nu_j^* h_j(\bo{x})
+%		\end{equation}
+%		
+%		
+%		
+%	\end{flushleft}
+%\end{frame}
+
+
+
+
+\begin{frame}{Sensitivity, 2}
+	% \framesubtitle{General form}
+	\begin{flushleft}
+		
+		Sensitivity of the optimal value of the cost function to the constraint perturbation is given as:
+		
+		\begin{align}
+			\left. \frac{\partial p(\bo{u}, \bo{v})}{\partial \bo{u}} \right\vert_{\bo{u}=0, \bo{v}=0} =
+			- \lambda^*;
+		\end{align}
+		\begin{align}
+		\left. \frac{\partial p(\bo{u}, \bo{v})}{\partial \bo{v}} \right\vert_{\bo{u}=0, \bo{v}=0}  =
+		- \nu^*.
+		\end{align}
+		
+		\bigskip
+		
+		Thus, analysing values of lagrange variables allows us to assess local sensitivity to constraint perturbation.
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+
+
+
+\begin{frame}{Read more}
+	% \framesubtitle{Parameter estimation}
+	\begin{flushleft}
+		
+		\begin{itemize}
+			\item \bref{https://www.stat.cmu.edu/~ryantibs/convexopt-F16/scribes/kkt-scribed.pdf}{Convex Optimization, Lecture 12: KKT conditions, Ryan Tibshirani.}
+			
+			\item \bref{https://people.eecs.berkeley.edu/~elghaoui/Teaching/EE227A/lecture13.pdf}{EE 227A: Convex Optimization and Applications, Lecture 13: Optimality Conditions for Convex Problems, Laurent El Ghaoui.}
+			
+			\item \bref{https://youtu.be/uh1Dk68cfWs?si=rHb-bFyrDeqkJo_I}{The Karush–Kuhn–Tucker (KKT) Conditions (video). Visually Explained.}
+		\end{itemize}
+		
+		
+		
+		
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+
+
+\myqrframe
+
+
+
+\end{document}

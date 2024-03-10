@@ -6,4 +6,4 @@
 *.snm
 *.toc
 *.vrb
-Slides/MiniMax/main.pdf
+*.DS_Store

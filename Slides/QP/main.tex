@@ -4,7 +4,7 @@
 
 
 \title{Quadratic programming}
-\subtitle{Computational Intelligence, Lecture 6}
+\subtitle{Computational Intelligence, Lecture 7}
 \author{by Sergei Savin}
 \centering
 \date{\mydate}
@@ -83,6 +83,25 @@ where $\bo{H}$ is positive-definite and $\bo{A}\bo{x} \leq \bo{b}$ describe a co
  
 \end{flushleft}
 \end{frame}
+
+
+
+\begin{frame}{Geometry of a QP}
+	%\framesubtitle{General form}
+	\begin{flushleft}
+		
+		% TODO: \usepackage{graphicx} required
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.5\linewidth]{qpcontour}
+			\caption{Geometry of a QP. \bref{https://docs.mosek.com/modeling-cookbook/qcqo.html}{Source}}
+			\label{fig:qpcontour}
+		\end{figure}
+		
+		
+	\end{flushleft}
+\end{frame}
+
 
 
 
@@ -261,13 +280,13 @@ Set $\mathbf{P}_0 = \mathbf{0}$ and you get an LP.
 			\frac{z_n^2}{m_n^2} \leq 1
 		\end{equation}
 		
-		We start by proposing a substitution $\bo{x}_0 = - \frac{1}{2}\bo{P}^{-1}\bo{q}$ and $-d = r - \bo{x}_0\T \bo{P} \bo{x}_0$. We can prove that: $(\bo{x} - \bo{x}_0)\T \bo{P}(\bo{x} - \bo{x}_0) - d^2 =
+		We start by proposing a substitution $\bo{x}_0 = - \frac{1}{2}\bo{P}^{-1}\bo{q}$ and $-d = r - \bo{x}_0\T \bo{P} \bo{x}_0$. We can prove that: $(\bo{x} - \bo{x}_0)\T \bo{P}(\bo{x} - \bo{x}_0) - d =
 		\mathbf{x}^\top \mathbf{P} \mathbf{x} + \mathbf{q}^\top\mathbf{x} + r$
 		
 		\begin{align}
-			(\bo{x} - \bo{x}_0)\T \bo{P}(\bo{x} - \bo{x}_0) - d^2 =
+			(\bo{x} - \bo{x}_0)\T \bo{P}(\bo{x} - \bo{x}_0) - d =
 			\\
-			= \bo{x}\T\bo{P}\bo{x} - 2\bo{x}_0\T\bo{P}\bo{x} + \bo{x}_0\T\bo{P}\bo{x}_0 - d^2 &=
+			= \bo{x}\T\bo{P}\bo{x} - 2\bo{x}_0\T\bo{P}\bo{x} + \bo{x}_0\T\bo{P}\bo{x}_0 - d &=
 			\\
 			= \bo{x}\T\bo{P}\bo{x} + 2\left(\textcolor{mydarkblue}{\frac{1}{2}\bo{P}^{-1}\bo{q}}\right)\T\bo{P}\bo{x} + \bo{x}_0\T\bo{P}\bo{x}_0 + \textcolor{mydarkblue}{r - \bo{x}_0\T \bo{P} \bo{x}_0} &=
 			\\
@@ -286,24 +305,24 @@ Set $\mathbf{P}_0 = \mathbf{0}$ and you get an LP.
 		Thus our original expression became:
 		%
 		\begin{align}
-			(\bo{x} - \bo{x}_0)\T \bo{P}(\bo{x} - \bo{x}_0) - d^2 \leq 0
+			(\bo{x} - \bo{x}_0)\T \bo{P}(\bo{x} - \bo{x}_0) - d \leq 0
 		\end{align}
 	%
 		We define $\bo{A} = \sqrt{\bo{P}}$ with SVD decomposition $\bo{A} = \bo{U} \Sigma \bo{V}\T$. Defining $\bo{z} = \bo{V}\T (\bo{x} - \bo{x}_0)$ we get:
 	%
 	\begin{align}
-		(\bo{x} - \bo{x}_0)\T \bo{A}\T\bo{A}(\bo{x} - \bo{x}_0) - d^2 \leq 0 
+		(\bo{x} - \bo{x}_0)\T \bo{A}\T\bo{A}(\bo{x} - \bo{x}_0) - d \leq 0 
 		\\
-		(\bo{x} - \bo{x}_0)\T  \bo{V} \Sigma \bo{U}\T  \bo{U} \Sigma \bo{V}\T(\bo{x} - \bo{x}_0) - d^2 \leq 0 
+		(\bo{x} - \bo{x}_0)\T  \bo{V} \Sigma \bo{U}\T  \bo{U} \Sigma \bo{V}\T(\bo{x} - \bo{x}_0) - d \leq 0 
 		\\
-		(\bo{x} - \bo{x}_0)\T  \bo{V} \Sigma^2 \bo{V}\T(\bo{x} - \bo{x}_0) - d^2 \leq 0
+		(\bo{x} - \bo{x}_0)\T  \bo{V} \Sigma^2 \bo{V}\T(\bo{x} - \bo{x}_0) - d \leq 0
 		\\
-		\bo{z}\T   \Sigma^2 \bo{z} - d^2 \leq 0
+		\bo{z}\T   \Sigma^2 \bo{z} - d \leq 0
 		\\
-		\sum z_i^2 \sigma_i^2  \leq d^2
+		\sum z_i^2 \sigma_i^2  \leq d
 	\end{align}
 %
-Defining $1/m_i^2 = \sigma_i^2 / d^2$ we get:
+Defining $1/m_i^2 = \sigma_i^2 / d$ we get:
 %
 \begin{equation}
 	\frac{z_1^2}{m_1^2} + \frac{z_2^2}{m_2^2} + ... + 
@@ -333,7 +352,9 @@ Implement a program that finds right-most point of an intersection of two ellips
 	\begin{flushleft}
 		
 		\begin{itemize}
-			\item \bref{https://mitsloan-php.s3.amazonaws.com/wp-faculty/sites/30/2016/12/15032137/Symmetric-Matrices-and-Eigendecomposition.pdf}{Symmetric Matrices and Eigendecomposition. Robert M. Freund, MIT, 2014}
+			\item \bref{https://mitsloan-php.s3.amazonaws.com/wp-faculty/sites/30/2016/12/15032137/Symmetric-Matrices-and-Eigendecomposition.pdf}{Symmetric Matrices and Eigendecomposition. Robert M. Freund, MIT, 2014}.
+			
+			\item \bref{https://docs.mosek.com/modeling-cookbook/qcqo.html}{MOSEK, QP and QCQP}.
 			
 			
 		\end{itemize}

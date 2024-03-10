@@ -225,16 +225,50 @@ where $\mathbf{H}$ is positive-definite and $\mathbf{A}\mathbf{x} \leq \mathbf{b
 
 
 
-\begin{frame}{Convex combination}
+\begin{frame}{Convex combination, 1}
 	% \framesubtitle{Parameter estimation}
 	\begin{flushleft}
 		
 		
 		In the proofs it is convenient to remember that for any two points $\mathbf{x}_1$ and $\mathbf{x}_2$, all points in the line segment connecting them are given as $\mathbf{x}_l = \alpha \mathbf{x}_1 + (1 - \alpha) \mathbf{x}_2$, where $\alpha \in [0 \ 1]$. This is called \emph{convex combination}.
 		
+		\bigskip
+		
+		We can think of the variable $\alpha$ as a slider - sliding $\alpha$ from 0 to 1 we slide $\bo{x}_l$ from $\bo{x}_2$ to $\bo{x}_1$.
+		
+		\bigskip
+		
+		A line segment between points $\bo{x}_1$ and $\bo{x}_2$ is called \emph{convex hull} of points $\bo{x}_1$ and $\bo{x}_2$. It can be defined as:
+		
+		\begin{equation}
+			\mathcal{L} = \{  \bo{x}: \  \alpha \bo{x}_1 + (1 - \alpha) \bo{x}_2, \   \alpha \in [0 \ 1] \}
+		\end{equation}
 		
 	\end{flushleft}
 \end{frame}
+
+
+
+
+\begin{frame}{Convex combination, 2}
+	% \framesubtitle{Parameter estimation}
+	\begin{flushleft}
+		
+		
+		Equivalently, a convex combination (line segment) of two points $\bo{x}_1$ and $\bo{x}_2$ is given as:
+		
+		\begin{equation}
+			\mathcal{L} = \{  \bo{x}: \  \beta_1 \bo{x}_1 + \beta_2 \bo{x}_2, \ \beta_1+\beta_2 = 1, \   \beta_{1, 2} \in [0 \ 1] \}
+		\end{equation}
+		
+		To show the equivalence, we can observe that $\beta_1 = 1 - \beta_2$. Defining $\alpha = \beta_1$ we get $\beta_2 = 1 - \alpha$, with $\alpha \in [0 \ 1]$ demonstrating equivalence.
+		
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
 
 
 
